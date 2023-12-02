@@ -14,7 +14,7 @@ cd runner
 cargo run --release
 ```
 
-You can excecute only a single day, where `XX` is the day number, using the following command:
+You can excecute only a single day using the following command:
 
 ```bash 
 cd day01a

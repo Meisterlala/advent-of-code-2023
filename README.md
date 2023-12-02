@@ -23,6 +23,6 @@ cargo run --release
 
 ## Solutions
 
-| Day | Part One       | Part Two |
-| --- | -------------- | -------------- |
-| 1   | [Code](day01a) | [Code](day01b) |
+| Day                                        | Part One       | Part Two       | Execution Time |
+| ------------------------------------------ | -------------- | -------------- | -------------- |
+| [1](https://adventofcode.com/2023/day/1)   | [Code](day01a) | [Code](day01b) | 1.48ms         |

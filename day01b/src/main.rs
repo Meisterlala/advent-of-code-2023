@@ -1,5 +1,5 @@
-fn main() {
-    println!("sum: {}", solve(include_str!("../input.txt")));
+pub fn main() {
+    print!("{}", solve(include_str!("../input.txt")));
 }
 
 fn solve(input: &str) -> u32 {

@@ -1,6 +1,6 @@
-fn main() {
+pub fn main() {
     let sum = solve(include_str!("../input.txt"));
-    println!("sum: {}", sum);
+    print!("{}", sum);
 }
 
 fn solve(input: &str) -> u32 {

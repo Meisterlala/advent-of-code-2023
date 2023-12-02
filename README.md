@@ -10,4 +10,7 @@ This repository contains my solutions to the Advent of Code 2023 puzzles. I will
 To run the code, you need to have Rust installed. You can install Rust from [here](https://www.rust-lang.org/tools/install).
 
 ## Solutions
-| Day | Part One | Part Two |
+
+| Day | Part One       | Part Two |
+| --- | -------------- | -------------- |
+| 1   | [Code](day01a) | [Code](day01b) |

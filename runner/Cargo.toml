@@ -5,8 +5,17 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[dev-dependencies]
+criterion = "0.5.1"
+
+[lib]
+path = "src/main.rs"
+
+[[bench]]
+name = "all_days"
+harness = false
+
 [dependencies]
-took = "0.1.2"
 
 # Days
 day01a = { path = "../day01a" }
@@ -14,3 +23,6 @@ day01b = { path = "../day01b" }
 
 day02a = { path = "../day02a" }
 day02b = { path = "../day02b" }
+
+day03a = { path = "../day03a" }
+#day03b = { path = "../day03b" }

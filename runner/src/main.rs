@@ -1,42 +1,49 @@
 use std::time::{Duration, Instant};
 
-struct Day {
-    day: u8,
-    part1: fn() -> (),
-    part2: fn() -> (),
+pub struct Day {
+    pub day: u8,
+    pub part1: Option<fn() -> ()>,
+    pub part2: Option<fn() -> ()>,
 }
 
 impl Day {
-    const fn new(day: u8, part1: fn() -> (), part2: fn() -> ()) -> Day {
+    const fn new(day: u8, part1: Option<fn() -> ()>, part2: Option<fn() -> ()>) -> Day {
         Day { day, part1, part2 }
     }
 }
 
-static DAYS: &[Day] = &[
-    Day::new(1, day01a::main, day01b::main),
-    Day::new(2, day02a::main, day02b::main),
+pub static DAYS: &[Day] = &[
+    Day::new(1, Some(day01a::main), Some(day01b::main)),
+    Day::new(2, Some(day02a::main), Some(day02b::main)),
+    Day::new(3, Some(day03a::main), None),
 ];
 
+#[allow(dead_code)]
 fn main() {
     println!("Running Advent of Code 2023...");
 
     let mut timings: Vec<String> = vec![];
 
-    for d in DAYS {
-        let timer = Instant::now();
+    for day in DAYS {
+        let mut running_time = Duration::new(0, 0);
 
-        print!("Day {:2} Part 1:  ", d.day);
-        (d.part1)();
+        if let Some(p1) = day.part1 {
+            print!("Day {:2} Part 1:  ", day.day);
+            let timer = Instant::now();
+            (p1)();
+            running_time += timer.elapsed();
+            println!()
+        }
 
-        print!("\nDay {:2} Part 2:  ", d.day);
-        (d.part2)();
+        if let Some(p2) = day.part2 {
+            print!("Day {:2} Part 2:  ", day.day);
+            let timer = Instant::now();
+            (p2)();
+            running_time += timer.elapsed();
+            println!()
+        }
 
-        timings.push(format!(
-            "Day {}: {} ms",
-            d.day,
-            format_time(timer.elapsed())
-        ));
-        println!();
+        timings.push(format!("Day {}: {} ms", day.day, format_time(running_time)));
     }
 
     println!("\nTimings:");

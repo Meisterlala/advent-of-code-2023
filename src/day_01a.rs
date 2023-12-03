@@ -1,14 +1,15 @@
-pub const INPUT: &str = include_str!("../input.txt");
+pub struct Day01a;
 
-pub fn main() {
-    print!("{}", solve(INPUT));
+impl crate::Solution for Day01a {
+    fn solve(&self) -> String {
+        format!("{}", solve(include_str!("../inputs/day01")))
+    }
 }
 
-pub fn solve(input: &str) -> u32 {
+fn solve(input: &str) -> u32 {
     let mut sum: u32 = 0;
     for line in input.lines() {
         let numbers: Vec<u32> = line.chars().filter_map(|c| c.to_digit(10)).collect();
-
         assert!(!numbers.is_empty(), "No numbers found in line: {}", line);
 
         sum += numbers.first().unwrap() * 10 + numbers.last().unwrap();

@@ -10,20 +10,20 @@ This repository contains my solutions to the Advent of Code 2023 puzzles. I will
 To run the code, you need to have Rust installed. You can install Rust from [here](https://www.rust-lang.org/tools/install). Once you have Rust installed, you execute all the days using the following command:
 
 ```bash
-cd runner
 cargo run --release
 ```
 
-You can excecute only a single day using the following command:
+The performance of the code can be benchmarked using the following command:
 
-```bash 
-cd day01a
-cargo run --release
+```bash
+cargo bench
 ```
+
 
 ## Solutions
 
-| Day                                        | Part One                   | Part Two                   | Execution Time |
-| -----------------------------------------: | -------------------------- | -------------------------- | -------------: |
-| [1](https://adventofcode.com/2023/day/1)   | [Code](day01a/src/main.rs) | [Code](day01b/src/main.rs) | 1.739 ms       |
-| [2](https://adventofcode.com/2023/day/2)   | [Code](day02a/src/main.rs) | [Code](day02b/src/main.rs) | 0.642 ms       |
+| Day                                        | Part One               | Part Two               | Execution Time |
+| -----------------------------------------: | ---------------------- | ---------------------- | -------------: |
+| [1](https://adventofcode.com/2023/day/1)   | [Code](src/day_01a.rs) | [Code](src/day_01b.rs) | 1.023 ms       |
+| [2](https://adventofcode.com/2023/day/2)   | [Code](src/day_02a.rs) | [Code](src/day_02b.rs) | 0.265 ms       |
+| [3](https://adventofcode.com/2023/day/3)   | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) | 0.952 ms       |

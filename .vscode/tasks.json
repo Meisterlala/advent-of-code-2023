@@ -8,9 +8,7 @@
             "label": "Run Benchmark",
             "command": "cargo",
             "args": [
-                "run",
-                "--manifest-path=${workspaceFolder}/runner/Cargo.toml",
-                "--release"
+                "bench",
             ],
             "problemMatcher": [
                 "$rustc"

@@ -1,5 +1,30 @@
-pub fn main() {
-    print!("{}", solve(include_str!("../input.txt")));
+pub struct Day02a;
+
+impl crate::Solution for Day02a {
+    fn solve(&self) -> String {
+        format!("{}", solve(include_str!("../inputs/day02"), MAX))
+    }
+}
+
+fn solve(input: &str, max: &Cubes) -> u32 {
+    let mut sum = 0;
+    for line in input.lines() {
+        // Game 1: 8 green, 6 blue, 20 red
+        let game: Vec<_> = line.split(':').collect();
+        let game_index: i32 = game[0].split(' ').last().unwrap().parse().unwrap();
+
+        // Split by ;
+        let valid = game[1].split(';').all(|set| {
+            let cubes = Cubes::from(set);
+            // Check if possible set
+            cubes.red <= max.red && cubes.green <= max.green && cubes.blue <= max.blue
+        });
+
+        if valid {
+            sum += game_index as u32;
+        }
+    }
+    sum
 }
 
 #[derive(PartialEq)]
@@ -8,6 +33,12 @@ struct Cubes {
     green: u32,
     blue: u32,
 }
+
+static MAX: &Cubes = &Cubes {
+    red: 12,
+    green: 13,
+    blue: 14,
+};
 
 impl Cubes {
     #[allow(dead_code)]
@@ -62,27 +93,6 @@ impl From<&str> for Cubes {
     }
 }
 
-fn solve(input: &str) -> u32 {
-    let mut sum = 0;
-    for line in input.lines() {
-        // Game 1: 8 green, 6 blue, 20 red
-        let game: Vec<_> = line.split(':').collect();
-
-        // Split by ;
-        let all_sets: Vec<_> = game[1].split(';').map(Cubes::from).collect();
-
-        // Find max red, green, blue
-        let max_red = all_sets.iter().map(|c| c.red).max().unwrap();
-        let max_green = all_sets.iter().map(|c| c.green).max().unwrap();
-        let max_blue = all_sets.iter().map(|c| c.blue).max().unwrap();
-
-        let power = max_red * max_green * max_blue;
-
-        sum += power;
-    }
-    sum
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -103,36 +113,6 @@ mod tests {
         Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
         Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
         Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"#;
-        assert_eq!(solve(input), 2286);
-    }
-
-    #[test]
-    fn test_1() {
-        let input = r#"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"#;
-        assert_eq!(solve(input), 48);
-    }
-
-    #[test]
-    fn test_2() {
-        let input = r#"Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue"#;
-        assert_eq!(solve(input), 12);
-    }
-
-    #[test]
-    fn test_3() {
-        let input = r#"Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"#;
-        assert_eq!(solve(input), 1560);
-    }
-
-    #[test]
-    fn test_4() {
-        let input = r#"Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"#;
-        assert_eq!(solve(input), 630);
-    }
-
-    #[test]
-    fn test_5() {
-        let input = r#"Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"#;
-        assert_eq!(solve(input), 36);
+        assert_eq!(solve(input, MAX), 1 + 2 + 5);
     }
 }

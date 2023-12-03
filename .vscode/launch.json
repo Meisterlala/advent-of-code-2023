@@ -11,11 +11,12 @@
             "cargo": {
                 "args": [
                     "build",
-                    "--manifest-path=${fileDirname}/../Cargo.toml",
                 ],
             },
-            "args": [],
-            "cwd": "${fileDirname}/../"
+            "args": [
+                "${fileBasenameNoExtension}"
+            ],
+            "cwd": "${fileDirname}/"
         }
     ]
 }

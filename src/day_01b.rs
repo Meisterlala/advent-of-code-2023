@@ -1,6 +1,11 @@
-pub fn main() {
-    print!("{}", solve(include_str!("../input.txt")));
+pub struct Day01b;
+
+impl crate::Solution for Day01b {
+    fn solve(&self) -> String {
+        format!("{}", solve(include_str!("../inputs/day01")))
+    }
 }
+
 
 fn solve(input: &str) -> u32 {
     let mut sum: u32 = 0;

@@ -24,5 +24,6 @@ cargo run --release
 ## Solutions
 
 | Day                                        | Part One                   | Part Two                   | Execution Time |
-| ------------------------------------------ | -------------------------- | -------------------------- | -------------- |
-| [1](https://adventofcode.com/2023/day/1)   | [Code](day01a/src/main.rs) | [Code](day01b/src/main.rs) | 1.48ms         |
+| ------------------------------------------ | -------------------------- | -------------------------- | -------------: |
+| [1](https://adventofcode.com/2023/day/1)   | [Code](day01a/src/main.rs) | [Code](day01b/src/main.rs) | 1.739 ms       |
+| [2](https://adventofcode.com/2023/day/2)   | [Code](day02a/src/main.rs) | [Code](day02b/src/main.rs) | 0.642 ms       |

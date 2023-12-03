@@ -17,6 +17,24 @@
                 "${fileBasenameNoExtension}"
             ],
             "cwd": "${fileDirname}/"
-        }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Cargo test",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--",
+                    "${fileBasenameNoExtension}"
+                ],
+            },
+            "args": [
+                "${fileBasenameNoExtension}"
+            ],
+            "cwd": "${fileDirname}/"
+        },
     ]
 }

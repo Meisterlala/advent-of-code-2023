@@ -182,7 +182,7 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_numbers() {
+    fn parse_multible_numbers() {
         assert_eq!(
             parse_numbers("...123.x14.155"),
             Ok((

@@ -6,7 +6,6 @@ impl crate::Solution for Day01b {
     }
 }
 
-
 fn solve(input: &str) -> u32 {
     let mut sum: u32 = 0;
     for line in input.lines() {
@@ -62,47 +61,47 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_29() {
+    fn parse_29() {
         assert_eq!(solve("two1nine"), 29);
     }
 
     #[test]
-    fn test_83() {
+    fn parse_83() {
         assert_eq!(solve("eightwothree"), 83);
     }
 
     #[test]
-    fn test_13() {
+    fn parse_13() {
         assert_eq!(solve("abcone2threexyz"), 13);
     }
 
     #[test]
-    fn test_24() {
+    fn parse_24() {
         assert_eq!(solve("xtwone3four"), 24);
     }
 
     #[test]
-    fn test_42() {
+    fn parse_42() {
         assert_eq!(solve("4nineeightseven2"), 42);
     }
 
     #[test]
-    fn test_14() {
+    fn parse_14() {
         assert_eq!(solve("zoneight234"), 14);
     }
 
     #[test]
-    fn test_76() {
+    fn parse_76() {
         assert_eq!(solve("7pqrstsixteen"), 76);
     }
 
     #[test]
-    fn test_sum() {
+    fn parse_sum() {
         assert_eq!(solve("two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen"), 281);
     }
 
     #[test]
-    fn test_18() {
+    fn parse_18() {
         assert_eq!(solve("oneight"), 18);
     }
 }

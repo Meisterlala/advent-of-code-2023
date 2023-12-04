@@ -92,7 +92,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_parse() {
+    fn parse() {
         let input = " 8 green, 6 blue, 20 red";
         let cubes = Cubes::from(input);
         assert_eq!(cubes.red, 20);
@@ -101,7 +101,7 @@ mod tests {
     }
 
     #[test]
-    fn test_example() {
+    fn example() {
         let input = r#"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
         Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
         Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
@@ -111,31 +111,31 @@ mod tests {
     }
 
     #[test]
-    fn test_1() {
+    fn line_1() {
         let input = r#"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"#;
         assert_eq!(solve(input), 48);
     }
 
     #[test]
-    fn test_2() {
+    fn line_2() {
         let input = r#"Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue"#;
         assert_eq!(solve(input), 12);
     }
 
     #[test]
-    fn test_3() {
+    fn line_3() {
         let input = r#"Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"#;
         assert_eq!(solve(input), 1560);
     }
 
     #[test]
-    fn test_4() {
+    fn line_4() {
         let input = r#"Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"#;
         assert_eq!(solve(input), 630);
     }
 
     #[test]
-    fn test_5() {
+    fn line_5() {
         let input = r#"Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"#;
         assert_eq!(solve(input), 36);
     }

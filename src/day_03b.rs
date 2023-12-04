@@ -155,7 +155,7 @@ mod tests {
 .664.598..";
 
     #[test]
-    fn test_example() {
+    fn example() {
         assert_eq!(solve(EXAMPLE), 467835);
     }
 }

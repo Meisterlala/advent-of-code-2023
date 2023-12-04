@@ -128,12 +128,12 @@ mod tests {
 .664.598..";
 
     #[test]
-    fn test_example() {
+    fn example() {
         assert_eq!(solve(EXAMPLE), 4361);
     }
 
     #[test]
-    fn test_array() {
+    fn array() {
         assert_eq!(
             to_array(EXAMPLE),
             vec![
@@ -152,7 +152,7 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_number() {
+    fn parsing() {
         assert_eq!(
             parse_number("..123.x14.155"),
             Ok((
@@ -167,7 +167,7 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_number2() {
+    fn parse_number2() {
         assert_eq!(
             parse_number("...123.x14.155"),
             Ok((

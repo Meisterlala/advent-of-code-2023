@@ -1,8 +1,15 @@
 pub struct Day04a;
+pub struct Day04b;
 
 impl crate::Solution for Day04a {
     fn solve(&self) -> String {
-        format!("{}", solve(include_str!("../inputs/day04")))
+        format!("{}", solve_a(include_str!("../inputs/day04")))
+    }
+}
+
+impl crate::Solution for Day04b {
+    fn solve(&self) -> String {
+        format!("{}", solve_b(include_str!("../inputs/day04")))
     }
 }
 
@@ -15,7 +22,7 @@ use nom::{
     IResult,
 };
 
-fn solve(input: &str) -> u32 {
+fn solve_a(input: &str) -> u32 {
     let cards = parse_cards(input).expect("Failed to parse cards").1;
 
     let mut score: u32 = 0;
@@ -34,10 +41,30 @@ fn solve(input: &str) -> u32 {
     score
 }
 
+fn solve_b(input: &str) -> u32 {
+    let mut cards = parse_cards(input).expect("Failed to parse cards").1;
+
+    for i in 0..cards.len() {
+        let winning_cards = cards[i]
+            .numbers
+            .iter()
+            .filter(|number| cards[i].winning.contains(number))
+            .count();
+
+        let amount_won = cards[i].count;
+        for card in cards.iter_mut().skip(i + 1).take(winning_cards) {
+            card.count += amount_won;
+        }
+    }
+
+    cards.iter().map(|card| card.count).sum()
+}
+
 #[derive(Debug)]
 struct Card {
     #[allow(dead_code)]
     id: u32,
+    count: u32,
     winning: Vec<u32>,
     numbers: Vec<u32>,
 }
@@ -60,6 +87,7 @@ fn parse_card(input: &str) -> IResult<&str, Card> {
         input,
         Card {
             id,
+            count: 1,
             winning,
             numbers,
         },
@@ -78,7 +106,7 @@ Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
 
     #[test]
-    fn test_parse() {
+    fn a_parse() {
         let (input, cards) = parse_cards(EXAMPLE).unwrap();
         dbg!(&cards);
 
@@ -87,43 +115,48 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
     }
 
     #[test]
-    fn test_card1() {
+    fn a_card1() {
         let l1 = EXAMPLE.lines().next().unwrap();
-        assert_eq!(solve(l1), 8);
+        assert_eq!(solve_a(l1), 8);
     }
 
     #[test]
-    fn test_card2() {
+    fn a_card2() {
         let l2 = EXAMPLE.lines().nth(1).unwrap();
-        assert_eq!(solve(l2), 2);
+        assert_eq!(solve_a(l2), 2);
     }
 
     #[test]
-    fn test_card3() {
+    fn a_card3() {
         let l3 = EXAMPLE.lines().nth(2).unwrap();
-        assert_eq!(solve(l3), 2);
+        assert_eq!(solve_a(l3), 2);
     }
 
     #[test]
-    fn test_card4() {
+    fn a_card4() {
         let l4 = EXAMPLE.lines().nth(3).unwrap();
-        assert_eq!(solve(l4), 1);
+        assert_eq!(solve_a(l4), 1);
     }
 
     #[test]
-    fn test_card5() {
+    fn a_card5() {
         let l5 = EXAMPLE.lines().nth(4).unwrap();
-        assert_eq!(solve(l5), 0);
+        assert_eq!(solve_a(l5), 0);
     }
 
     #[test]
-    fn test_card6() {
+    fn a_card6() {
         let l6 = EXAMPLE.lines().nth(5).unwrap();
-        assert_eq!(solve(l6), 0);
+        assert_eq!(solve_a(l6), 0);
     }
 
     #[test]
-    fn test_example() {
-        assert_eq!(solve(EXAMPLE), 13);
+    fn a_example() {
+        assert_eq!(solve_a(EXAMPLE), 13);
+    }
+
+    #[test]
+    fn b_example() {
+        assert_eq!(solve_b(EXAMPLE), 30);
     }
 }

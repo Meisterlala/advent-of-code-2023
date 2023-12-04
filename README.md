@@ -24,7 +24,7 @@ cargo bench
 
 | Day                                        | Part One               | Part Two               | Execution Time |
 | -----------------------------------------: | ---------------------- | ---------------------- | -------------: |
-| [1](https://adventofcode.com/2023/day/1)   | [Code](src/day_01a.rs) | [Code](src/day_01b.rs) | 1.023 ms       |
-| [2](https://adventofcode.com/2023/day/2)   | [Code](src/day_02a.rs) | [Code](src/day_02b.rs) | 0.265 ms       |
-| [3](https://adventofcode.com/2023/day/3)   | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) | 3.808 ms       |
-| [4](https://adventofcode.com/2023/day/4)   | [Code](src/day_04a.rs) |  |        |
+| [1](https://adventofcode.com/2023/day/1)   | [Code](src/day_01a.rs) | [Code](src/day_01b.rs) | 0.812 ms       |
+| [2](https://adventofcode.com/2023/day/2)   | [Code](src/day_02a.rs) | [Code](src/day_02b.rs) | 0.266 ms       |
+| [3](https://adventofcode.com/2023/day/3)   | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) | 4.313 ms       |
+| [4](https://adventofcode.com/2023/day/4)   | [Code](src/day_04.rs)  | [Code](src/day_04.rs)  | 0.750 ms       |

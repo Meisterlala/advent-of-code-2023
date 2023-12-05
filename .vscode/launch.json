@@ -16,7 +16,7 @@
             "args": [
                 "${fileBasenameNoExtension}"
             ],
-            "cwd": "${fileDirname}/"
+            "cwd": "${fileDirname}"
         },
         {
             "type": "lldb",
@@ -34,7 +34,7 @@
             "args": [
                 "${fileBasenameNoExtension}"
             ],
-            "cwd": "${fileDirname}/"
+            "cwd": "${fileDirname}"
         },
     ]
 }

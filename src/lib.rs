@@ -9,6 +9,7 @@ mod day_03b;
 
 mod day_04;
 
+mod day_05;
 
 pub static DAYS: &[Day] = &[
     Day {
@@ -30,6 +31,11 @@ pub static DAYS: &[Day] = &[
         day: 4,
         part1: Some(&day_04::Day04a),
         part2: Some(&day_04::Day04b),
+    },
+    Day {
+        day: 5,
+        part1: Some(&day_05::Day05a),
+        part2: Some(&day_05::Day05b),
     },
 ];
 

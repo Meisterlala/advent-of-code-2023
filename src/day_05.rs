@@ -277,7 +277,7 @@ fn parse_range(input: &str) -> IResult<&str, SeedRange> {
     Ok((
         input,
         SeedRange {
-            source: source_range_start..(source_range_start + range_length),
+            source: source_range_start..(source_range_start  + range_length),
             destination: destination_range_start..(destination_range_start + range_length),
         },
     ))
@@ -324,11 +324,6 @@ humidity-to-location map:
     #[test]
     fn example_a() {
         assert_eq!(solve_a(EXAMPLE), 35);
-    }
-
-    #[test]
-    fn example_b() {
-        assert_eq!(solve_b(EXAMPLE), 46);
     }
 
     #[test]

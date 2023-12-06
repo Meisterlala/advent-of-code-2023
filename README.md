@@ -24,10 +24,10 @@ cargo bench
 
 | Day                                        | Part One               | Part Two               | Execution Time |
 | -----------------------------------------: | ---------------------- | ---------------------- | -------------: |
-| [1](https://adventofcode.com/2023/day/1)   | [Code](src/day_01a.rs) | [Code](src/day_01b.rs) | 0.812 ms       |
-| [2](https://adventofcode.com/2023/day/2)   | [Code](src/day_02a.rs) | [Code](src/day_02b.rs) | 0.266 ms       |
-| [3](https://adventofcode.com/2023/day/3)   | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) | 4.313 ms       |
-| [4](https://adventofcode.com/2023/day/4)   | [Code](src/day_04.rs)  | [Code](src/day_04.rs)  | 0.750 ms       |
-| [5](https://adventofcode.com/2023/day/5)   | [Code](src/day_05.rs)  | [Code](src/day_05.rs)  | 0.306 ms       |
-| [5](https://adventofcode.com/2023/day/6)   | [Code](src/day_06.rs)  | [Code](src/day_06.rs)  | 0.306 ms       |
+| [1](https://adventofcode.com/2023/day/1)   | [Code](src/day_01a.rs) | [Code](src/day_01b.rs) | 1.316 ms       |
+| [2](https://adventofcode.com/2023/day/2)   | [Code](src/day_02a.rs) | [Code](src/day_02b.rs) | 0.370 ms       |
+| [3](https://adventofcode.com/2023/day/3)   | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) | 5.084 ms       |
+| [4](https://adventofcode.com/2023/day/4)   | [Code](src/day_04.rs)  | [Code](src/day_04.rs)  | 0.981 ms       |
+| [5](https://adventofcode.com/2023/day/5)   | [Code](src/day_05.rs)  | [Code](src/day_05.rs)  | 0.331 ms       |
+| [5](https://adventofcode.com/2023/day/6)   | [Code](src/day_06.rs)  | [Code](src/day_06.rs)  | 0.005 ms       |
 

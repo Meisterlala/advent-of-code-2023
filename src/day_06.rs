@@ -23,14 +23,14 @@ impl crate::Solution for Day06b {
     }
 }
 
-fn solve_a(input: &str) -> usize {
+fn solve_a(input: &str) -> u64 {
     let (_, records) = parse_a(input).expect("Could not parse input");
-    records.iter().map(|r| r.possible_wins().len()).product()
+    records.iter().map(|r| r.win_count()).product()
 }
 
-fn solve_b(input: &str) -> usize {
+fn solve_b(input: &str) -> u64 {
     let (_, records) = parse_b(input).expect("Could not parse input");
-    records.iter().map(|r| r.possible_wins().len()).sum()
+    records.iter().map(|r| r.win_count()).sum()
 }
 
 #[derive(Debug)]
@@ -40,20 +40,43 @@ struct Record {
 }
 
 impl Record {
-    /// List of possible starting times to beat the record
+    #[allow(dead_code)]
     fn possible_wins(&self) -> Vec<u64> {
-        (0..self.time)
-            .map(|h| (h, self.time_to_win(h)))
-            .filter(|(_, t)| *t < self.time)
-            .map(|(h, _)| h)
-            .collect()
+        // d > h * (t - h)
+        let mut res = vec![];
+        for h in 0..self.time {
+            let d = self.distance_traveled(h);
+            if d > self.distance {
+                res.push(h);
+            } else {
+                if res.len() > 0 {
+                    break;
+                }
+            }
+        }
+        res
     }
 
-    fn time_to_win(&self, hold_time: u64) -> u64 {
-        if hold_time == 0 {
-            return self.distance;
-        }
-        hold_time + self.distance / hold_time
+    fn win_count(&self) -> u64 {
+        let (min, max) = self.min_max_time();
+        max - min + 1
+    }
+
+    fn distance_traveled(&self, hold_time: u64) -> u64 {
+        // d = h * (t - h)
+        hold_time * (self.time - hold_time)
+    }
+
+    fn min_max_time(&self) -> (u64, u64) {
+        // distance = hold * (time - hold)
+        // hold_1 = (time - sqrt(time^2 - 4*distance)) / 2
+        // hold_2 = (time + sqrt(time^2 - 4*distance)) / 2
+
+        let sqrt = ((self.time.pow(2) - (4 * self.distance)) as f64).sqrt();
+        let hold_1 = ((self.time as f64 - sqrt) / 2.0).floor() as u64;
+        let hold_2 = ((self.time as f64 + sqrt) / 2.0).ceil() as u64;
+
+        (hold_1 + 1, hold_2 - 1)
     }
 }
 
@@ -156,6 +179,8 @@ Distance:  9  40  200";
             distance: 9,
         };
         assert_eq!(record.possible_wins(), vec![2, 3, 4, 5]);
+        assert_eq!(record.min_max_time(), (2, 5));
+        assert_eq!(record.win_count(), 4);
     }
 
     #[test]
@@ -165,6 +190,8 @@ Distance:  9  40  200";
             distance: 40,
         };
         assert_eq!(record.possible_wins(), vec![4, 5, 6, 7, 8, 9, 10, 11]);
+        assert_eq!(record.min_max_time(), (4, 11));
+        assert_eq!(record.win_count(), 8);
     }
 
     #[test]
@@ -177,5 +204,7 @@ Distance:  9  40  200";
             record.possible_wins(),
             vec![11, 12, 13, 14, 15, 16, 17, 18, 19]
         );
+        assert_eq!(record.min_max_time(), (11, 19));
+        assert_eq!(record.win_count(), 9);
     }
 }

@@ -48,10 +48,8 @@ impl Record {
             let d = self.distance_traveled(h);
             if d > self.distance {
                 res.push(h);
-            } else {
-                if res.len() > 0 {
-                    break;
-                }
+            } else if !res.is_empty() {
+                break;
             }
         }
         res
@@ -87,7 +85,7 @@ fn parse_a(input: &str) -> IResult<&str, Vec<Record>> {
 
     let records = time
         .into_iter()
-        .zip(distance.into_iter())
+        .zip(distance)
         .map(|(time, distance)| Record { time, distance })
         .collect();
 

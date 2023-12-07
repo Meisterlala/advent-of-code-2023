@@ -25,12 +25,12 @@ use nom::{
 
 fn solve_a(input: &str) -> u64 {
     let (_, game) = parse_game_a(input).expect("failed to parse game");
-    return game.min_location();
+    game.min_location()
 }
 
 fn solve_b(input: &str) -> u64 {
     let (_, game) = parse_game_b(input).expect("failed to parse game");
-    return game.min_location();
+    game.min_location()
 }
 
 #[derive(Debug, PartialEq)]
@@ -104,15 +104,15 @@ impl Almanac {
                 acc.extend(h);
                 acc
             });
-        let location = humidity
+        
+
+        humidity
             .into_iter()
             .map(|h| self.humidity_to_location.transform(h))
             .fold(Vec::new(), |mut acc, l| {
                 acc.extend(l);
                 acc
-            });
-
-        location
+            })
     }
 }
 

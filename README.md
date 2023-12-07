@@ -29,5 +29,5 @@ cargo bench
 | [3](https://adventofcode.com/2023/day/3)   | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) | 5.084 ms       |
 | [4](https://adventofcode.com/2023/day/4)   | [Code](src/day_04.rs)  | [Code](src/day_04.rs)  | 0.981 ms       |
 | [5](https://adventofcode.com/2023/day/5)   | [Code](src/day_05.rs)  | [Code](src/day_05.rs)  | 0.331 ms       |
-| [5](https://adventofcode.com/2023/day/6)   | [Code](src/day_06.rs)  | [Code](src/day_06.rs)  | 0.005 ms       |
-
+| [6](https://adventofcode.com/2023/day/6)   | [Code](src/day_06.rs)  | [Code](src/day_06.rs)  | 0.005 ms       |
+| [7](https://adventofcode.com/2023/day/7)   | [Code](src/day_07.rs)  | [Code](src/day_07.rs)  | 3.558 ms       |

@@ -24,11 +24,11 @@ cargo bench
 
 | Day                                        | Part One               | Part Two               | Execution Time |
 | -----------------------------------------: | ---------------------- | ---------------------- | -------------: |
-| [1](https://adventofcode.com/2023/day/1)   | [Code](src/day_01a.rs) | [Code](src/day_01b.rs) | 1.316 ms       |
-| [2](https://adventofcode.com/2023/day/2)   | [Code](src/day_02a.rs) | [Code](src/day_02b.rs) | 0.370 ms       |
-| [3](https://adventofcode.com/2023/day/3)   | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) | 5.084 ms       |
-| [4](https://adventofcode.com/2023/day/4)   | [Code](src/day_04.rs)  | [Code](src/day_04.rs)  | 0.981 ms       |
-| [5](https://adventofcode.com/2023/day/5)   | [Code](src/day_05.rs)  | [Code](src/day_05.rs)  | 0.331 ms       |
-| [6](https://adventofcode.com/2023/day/6)   | [Code](src/day_06.rs)  | [Code](src/day_06.rs)  | 0.005 ms       |
-| [7](https://adventofcode.com/2023/day/7)   | [Code](src/day_07.rs)  | [Code](src/day_07.rs)  | 3.558 ms       |
-| [8](https://adventofcode.com/2023/day/8)   | [Code](src/day_08.rs)  | [Code](src/day_08.rs)  | 3.869 ms       |
+| [1](https://adventofcode.com/2023/day/1)   | [Code](src/day_01a.rs) | [Code](src/day_01b.rs) | 1.095 ms       |
+| [2](https://adventofcode.com/2023/day/2)   | [Code](src/day_02a.rs) | [Code](src/day_02b.rs) | 0.278 ms       |
+| [3](https://adventofcode.com/2023/day/3)   | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) | 4.343 ms       |
+| [4](https://adventofcode.com/2023/day/4)   | [Code](src/day_04.rs)  | [Code](src/day_04.rs)  | 0.881 ms       |
+| [5](https://adventofcode.com/2023/day/5)   | [Code](src/day_05.rs)  | [Code](src/day_05.rs)  | 0.301 ms       |
+| [6](https://adventofcode.com/2023/day/6)   | [Code](src/day_06.rs)  | [Code](src/day_06.rs)  | 0.002 ms       |
+| [7](https://adventofcode.com/2023/day/7)   | [Code](src/day_07.rs)  | [Code](src/day_07.rs)  | 2.274 ms       |
+| [8](https://adventofcode.com/2023/day/8)   | [Code](src/day_08.rs)  | [Code](src/day_08.rs)  | 3.990 ms       |

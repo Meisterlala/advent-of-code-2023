@@ -5,7 +5,7 @@ use advent_of_code_2023::DAYS;
 
 pub fn seperate(c: &mut Criterion) {
     for d in DAYS {
-        let mut group = c.benchmark_group(format!("Day {}", d.day));
+        let mut group = c.benchmark_group(format!("day_{:02}", d.day));
         if let Some(p1) = d.part1 {
             group.bench_function("Part 1", |b| b.iter(|| p1.solve()));
         }
@@ -18,7 +18,7 @@ pub fn seperate(c: &mut Criterion) {
 
 pub fn combined(c: &mut Criterion) {
     for d in DAYS {
-        c.bench_function(&format!("Day {:2}", d.day), |b| {
+        c.bench_function(&format!("day_{:02}", d.day), |b| {
             b.iter(|| {
                 if let Some(p1) = d.part1 {
                     p1.solve();

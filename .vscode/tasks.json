@@ -5,10 +5,26 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "Run Benchmark",
+            "label": "Benchmark All",
             "command": "cargo",
             "args": [
                 "bench",
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": {
+                "kind": "build",
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Benchmark current day",
+            "command": "cargo",
+            "args": [
+                "bench",
+                "--",
+                "${fileBasenameNoExtension}",
             ],
             "problemMatcher": [
                 "$rustc"

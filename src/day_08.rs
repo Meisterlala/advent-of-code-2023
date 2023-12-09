@@ -32,7 +32,6 @@ fn solve_a(input: &str) -> u64 {
 
     while current != "ZZZ" {
         let (left, right) = game.nodes.get(current).expect("No node");
-
         current = if instructions.next().expect("No instructions") == 'R' {
             right
         } else {
@@ -47,21 +46,15 @@ fn solve_a(input: &str) -> u64 {
 fn solve_b(input: &str) -> u64 {
     let (_, game) = parse_input(input).expect("Failed to parse input");
 
-    let current: Vec<_> = game
-        .nodes
-        .keys()
-        .filter(|&k| k.ends_with('A'))
-        .copied()
-        .collect();
+    let start_nodes = game.nodes.keys().filter(|&k| k.ends_with('A'));
 
-    let cycle_count = current.iter().map(|node| {
-        let mut step_count = 0;
-        let mut current = node;
+    let cycle_count = start_nodes.map(|node| {
         let mut instructions = game.instructions.chars().cycle();
 
+        let mut step_count = 0;
+        let mut current = node;
         while !current.ends_with('Z') {
             let (left, right) = game.nodes.get(current).expect("No node");
-
             current = if instructions.next().expect("No instructions") == 'R' {
                 right
             } else {

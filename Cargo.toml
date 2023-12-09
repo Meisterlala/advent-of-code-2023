@@ -3,12 +3,20 @@ name = "advent-of-code-2023"
 version = "0.1.0"
 edition = "2021"
 
-
 [dependencies]
 nom = "7.1"
 
 [dev-dependencies]
 criterion = "0.5.1"
+
+# for criterion
+[lib]
+bench = false
+
+[[bin]]
+name = "advent-of-code-2023y"
+path = "src/main.rs"
+bench = false
 
 [[bench]]
 name = "all_days"

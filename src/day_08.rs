@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use nom::{
     bytes::complete::{is_a, tag},
-    character::complete::{alpha1, alphanumeric1, line_ending, multispace1},
+    character::complete::{alphanumeric1, line_ending, multispace1},
     multi::separated_list1,
     sequence::{delimited, pair, separated_pair, terminated},
     IResult,

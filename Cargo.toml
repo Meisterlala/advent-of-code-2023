@@ -11,10 +11,11 @@ criterion = "0.5.1"
 
 # for criterion
 [lib]
+path = "src/lib.rs"
 bench = false
 
 [[bin]]
-name = "advent-of-code-2023y"
+name = "advent-of-code-2023"
 path = "src/main.rs"
 bench = false
 

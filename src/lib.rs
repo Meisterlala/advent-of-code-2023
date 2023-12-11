@@ -67,7 +67,7 @@ pub static DAYS: &[Day] = &[
     Day {
         day: 11,
         part1: Some(&day_11::Day11a),
-        part2: None,
+        part2: Some(&day_11::Day11b),
     },
 ];
 

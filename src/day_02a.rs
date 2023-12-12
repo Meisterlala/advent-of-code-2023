@@ -1,12 +1,6 @@
-pub struct Day02a;
+crate::solution!(2, solve, crate::day_02b::solve);
 
-impl crate::Solution for Day02a {
-    fn solve(&self) -> String {
-        format!("{}", solve(include_str!("../inputs/day02"), MAX))
-    }
-}
-
-fn solve(input: &str, max: &Cubes) -> u32 {
+pub fn solve(input: &str) -> u32 {
     let mut sum = 0;
     for line in input.lines() {
         // Game 1: 8 green, 6 blue, 20 red
@@ -17,7 +11,7 @@ fn solve(input: &str, max: &Cubes) -> u32 {
         let valid = game[1].split(';').all(|set| {
             let cubes = Cubes::from(set);
             // Check if possible set
-            cubes.red <= max.red && cubes.green <= max.green && cubes.blue <= max.blue
+            cubes.red <= MAX.red && cubes.green <= MAX.green && cubes.blue <= MAX.blue
         });
 
         if valid {
@@ -113,6 +107,6 @@ mod tests {
         Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
         Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
         Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"#;
-        assert_eq!(solve(input, MAX), 1 + 2 + 5);
+        assert_eq!(solve(input), 1 + 2 + 5);
     }
 }

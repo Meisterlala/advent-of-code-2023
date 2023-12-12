@@ -1,3 +1,5 @@
+crate::solution!(10, solve_a, solve_b);
+
 use std::collections::VecDeque;
 
 use nom::{
@@ -6,22 +8,7 @@ use nom::{
     IResult,
 };
 
-pub struct Day10a;
-pub struct Day10b;
-
-impl crate::Solution for Day10a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day10")))
-    }
-}
-
-impl crate::Solution for Day10b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day10")))
-    }
-}
-
-fn solve_a(input: &str) -> u32 {
+pub fn solve_a(input: &str) -> u32 {
     let (_, graph) = parse_input(input).expect("Failed to parse input");
 
     // Find the starting point
@@ -41,7 +28,7 @@ fn solve_a(input: &str) -> u32 {
         .saturating_sub(1)
 }
 
-fn solve_b(input: &str) -> u32 {
+pub fn solve_b(input: &str) -> u32 {
     let (_, graph) = parse_input(input).expect("Failed to parse input");
 
     // Find the starting point

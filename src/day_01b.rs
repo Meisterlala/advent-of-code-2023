@@ -1,12 +1,5 @@
-pub struct Day01b;
 
-impl crate::Solution for Day01b {
-    fn solve(&self) -> String {
-        format!("{}", solve(include_str!("../inputs/day01")))
-    }
-}
-
-fn solve(input: &str) -> u32 {
+pub fn solve(input: &str) -> u32 {
     let mut sum: u32 = 0;
     for line in input.lines() {
         let mut numbers: Vec<u32> = Vec::new();

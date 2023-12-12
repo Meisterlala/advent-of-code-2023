@@ -1,12 +1,6 @@
-pub struct Day01a;
+crate::solution!(1, solve, crate::day_01b::solve);
 
-impl crate::Solution for Day01a {
-    fn solve(&self) -> String {
-        format!("{}", solve(include_str!("../inputs/day01")))
-    }
-}
-
-fn solve(input: &str) -> u32 {
+pub fn solve(input: &str) -> u32 {
     let mut sum: u32 = 0;
     for line in input.lines() {
         let numbers: Vec<u32> = line.chars().filter_map(|c| c.to_digit(10)).collect();

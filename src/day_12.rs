@@ -1,3 +1,5 @@
+crate::solution!(12, solve_a, solve_b);
+
 use nom::{
     branch::alt,
     character::complete::char,
@@ -7,40 +9,16 @@ use nom::{
     sequence::separated_pair,
 };
 
-pub struct Day12a;
-pub struct Day12b;
-
-impl crate::Solution for Day12a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day12")))
-    }
-}
-
-impl crate::Solution for Day12b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day12")))
-    }
-}
-
-fn solve_a(input: &str) -> u64 {
+pub fn solve_a(input: &str) -> u64 {
     let (_, springs) = parse(input).expect("Failed to parse input");
 
-    springs
-        .iter()
-        .map(|(conditions, broken)| arrangements(conditions, broken))
-        .sum()
+    arrangements_sum(springs.into_iter())
 }
 
-fn solve_b(input: &str) -> u64 {
+pub fn solve_b(input: &str) -> u64 {
     let (_, springs) = parse(input).expect("Failed to parse input");
 
-    springs
-        .into_iter()
-        .map(|spring| {
-            let (conditions, broken) = expand(spring);
-            arrangements(&conditions, &broken)
-        })
-        .sum()
+    arrangements_sum(springs.into_iter().map(expand))
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
@@ -88,13 +66,14 @@ fn expand(springs: Springs) -> Springs {
     (ex_conditions, ex_broken)
 }
 
-type DpMap = Vec<Vec<Option<u64>>>;
-fn dp_arrangements<'a>(
+type DpMap = Vec<Option<u64>>;
+unsafe fn dp_arrangements<'a>(
     conditions: &'a [Condition],
     broken: &'a [Broken],
     dp: &mut DpMap,
     index_1: usize,
     index_2: usize,
+    index_1_max: usize,
 ) -> u64 {
     // If the there not supposed to be any more broken springs, and all conditions are operational or unknown
     if broken.is_empty() {
@@ -132,15 +111,23 @@ fn dp_arrangements<'a>(
     }
 
     // If we have already calculated the number of arrangements for this state, return it
-    if let Some(arrangements) = dp[index_1][index_2] {
-        return arrangements;
+    debug_assert!(map_to_1d(index_1, index_2, index_1_max) < dp.len());
+    if let Some(arrangements) = dp.get_unchecked(map_to_1d(index_1, index_2, index_1_max)) {
+        return *arrangements;
     }
 
     let mut valid = 0;
 
     // Try to skip spring at current location, assuming that its operational
     if matches!(conditions[0], Condition::Operational | Condition::Unknown) {
-        valid += dp_arrangements(&conditions[1..], broken, dp, index_1 + 1, index_2);
+        valid += dp_arrangements(
+            &conditions[1..],
+            broken,
+            dp,
+            index_1 + 1,
+            index_2,
+            index_1_max,
+        );
     }
 
     // Try to fit springs at current location, knowing that the next spring after the group is operational
@@ -160,17 +147,56 @@ fn dp_arrangements<'a>(
             dp,
             index_1 + broken[0] as usize + 1,
             index_2 + 1,
+            index_1_max,
         );
     }
 
     // Insert the number of arrangements for this state into the dp map
-    dp[index_1][index_2] = Some(valid);
+    dp.get_unchecked_mut(map_to_1d(index_1, index_2, index_1_max))
+        .replace(valid);
     valid
 }
 
-fn arrangements(conditions: &[Condition], broken: &[Broken]) -> u64 {
-    let mut dp = vec![vec!(None; broken.len()); conditions.len()];
-    dp_arrangements(conditions, broken, &mut dp, 0, 0)
+fn map_to_1d(conditions: usize, broken: usize, conditions_max: usize) -> usize {
+    broken * conditions_max + conditions
+}
+
+fn arrangements(
+    conditions: &[Condition],
+    broken: &[Broken],
+    dp_buffer: &mut DpMap,
+    max_conditions: usize,
+) -> u64 {
+    // Make sure that the dp buffer is large enough
+    debug_assert!(dp_buffer.len() >= conditions.len() * broken.len());
+
+    unsafe { dp_arrangements(conditions, broken, dp_buffer, 0, 0, max_conditions) }
+}
+
+fn arrangements_sum<I>(springs: I) -> u64
+where
+    I: Iterator<Item = Springs> + Clone,
+{
+    let max_broken = springs
+        .clone()
+        .map(|(_, broken)| broken.len())
+        .max()
+        .unwrap_or(0);
+    let max_conditions = springs
+        .clone()
+        .map(|(conditions, _)| conditions.len())
+        .max()
+        .unwrap_or(0);
+
+    let mut dp_buffer = vec![None; max_conditions * max_broken];
+
+    springs
+        .map(|(conditions, broken)| {
+            // Clear the dp buffer
+            dp_buffer.fill(None);
+            arrangements(&conditions, &broken, &mut dp_buffer, max_conditions)
+        })
+        .sum()
 }
 
 #[cfg(test)]
@@ -192,6 +218,13 @@ mod tests {
     #[test]
     fn example_b() {
         assert_eq!(solve_b(EXAMPLE), 525152);
+    }
+
+    fn arrangements(conditions: &[Condition], broken: &[Broken]) -> u64 {
+        // Make sure that the dp buffer is large enough
+        let mut dp_buffer = vec![None; broken.len() * conditions.len()];
+
+        unsafe { dp_arrangements(conditions, broken, &mut dp_buffer, 0, 0, conditions.len()) }
     }
 
     #[test]
@@ -245,7 +278,8 @@ mod tests {
 
     #[test]
     fn parse() {
-        let parsed = super::parse(include_str!("../inputs/day12"));
+        let input = crate::get_input(12);
+        let parsed = super::parse(&input);
         assert!(parsed.is_ok());
         let (rest, _) = parsed.unwrap();
         assert_eq!(rest, "");

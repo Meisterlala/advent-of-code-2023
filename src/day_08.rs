@@ -1,3 +1,5 @@
+crate::solution!(8, solve_a, solve_b);
+
 use std::collections::HashMap;
 
 use nom::{
@@ -8,22 +10,7 @@ use nom::{
     IResult,
 };
 
-pub struct Day08a;
-pub struct Day08b;
-
-impl crate::Solution for Day08a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day08")))
-    }
-}
-
-impl crate::Solution for Day08b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day08")))
-    }
-}
-
-fn solve_a(input: &str) -> u64 {
+pub fn solve_a(input: &str) -> u64 {
     let (_, game) = parse_input(input).expect("Failed to parse input");
 
     let mut current = "AAA";
@@ -43,7 +30,7 @@ fn solve_a(input: &str) -> u64 {
     steps
 }
 
-fn solve_b(input: &str) -> u64 {
+pub fn solve_b(input: &str) -> u64 {
     let (_, game) = parse_input(input).expect("Failed to parse input");
 
     let start_nodes = game.nodes.keys().filter(|&k| k.ends_with('A'));

@@ -1,12 +1,4 @@
-pub struct Day02b;
-
-impl crate::Solution for Day02b {
-    fn solve(&self) -> String {
-        format!("{}", solve(include_str!("../inputs/day02")))
-    }
-}
-
-fn solve(input: &str) -> u32 {
+pub fn solve(input: &str) -> u32 {
     let mut sum = 0;
     for line in input.lines() {
         // Game 1: 8 green, 6 blue, 20 red

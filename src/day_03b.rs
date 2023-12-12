@@ -1,12 +1,4 @@
-pub struct Day03b;
-
-impl crate::Solution for Day03b {
-    fn solve(&self) -> String {
-        format!("{}", solve(include_str!("../inputs/day03")))
-    }
-}
-
-fn solve(input: &str) -> u32 {
+pub fn solve(input: &str) -> u32 {
     // Sum of all products between two numbers that are connected by a gear ('*')
     let mut sum = 0;
 

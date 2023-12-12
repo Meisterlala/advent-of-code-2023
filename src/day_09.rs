@@ -1,30 +1,17 @@
+crate::solution!(9, solve_a, solve_b);
+
 use nom::{
     character::complete::{self, newline, space1},
     multi::separated_list1,
     IResult,
 };
 
-pub struct Day09a;
-pub struct Day09b;
-
-impl crate::Solution for Day09a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day09")))
-    }
-}
-
-impl crate::Solution for Day09b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day09")))
-    }
-}
-
-fn solve_a(input: &str) -> i64 {
+pub fn solve_a(input: &str) -> i64 {
     let (_, history) = parse_input(input).expect("Failed to parse input");
     history.iter().map(|line| next_value(line)).sum()
 }
 
-fn solve_b(input: &str) -> i64 {
+pub fn solve_b(input: &str) -> i64 {
     let (_, history) = parse_input(input).expect("Failed to parse input");
     history.iter().map(|line| prev_value(line)).sum()
 }

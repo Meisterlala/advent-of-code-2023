@@ -1,3 +1,5 @@
+crate::solution!(7, solve_a, solve_b);
+
 use std::collections::HashMap;
 
 use nom::{
@@ -8,22 +10,8 @@ use nom::{
     IResult,
 };
 
-pub struct Day07a;
-pub struct Day07b;
 
-impl crate::Solution for Day07a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day07")))
-    }
-}
-
-impl crate::Solution for Day07b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day07")))
-    }
-}
-
-fn solve_a(input: &str) -> u64 {
+pub fn solve_a(input: &str) -> u64 {
     let mut hands = parse_a(input).expect("Could not parse input").1;
     hands.sort_unstable();
 
@@ -34,7 +22,7 @@ fn solve_a(input: &str) -> u64 {
         .sum()
 }
 
-fn solve_b(input: &str) -> u64 {
+pub fn solve_b(input: &str) -> u64 {
     let mut hands = parse_b(input).expect("Could not parse input").1;
     hands.sort_unstable();
 

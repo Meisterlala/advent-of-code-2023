@@ -14,75 +14,76 @@ mod day_10;
 mod day_11;
 mod day_12;
 
-pub static DAYS: &[Day] = &[
-    Day {
-        day: 1,
-        part1: Some(&day_01a::Day01a),
-        part2: Some(&day_01b::Day01b),
-    },
-    Day {
-        day: 2,
-        part1: Some(&day_02a::Day02a),
-        part2: Some(&day_02b::Day02b),
-    },
-    Day {
-        day: 3,
-        part1: Some(&day_03a::Day03a),
-        part2: Some(&day_03b::Day03b),
-    },
-    Day {
-        day: 4,
-        part1: Some(&day_04::Day04a),
-        part2: Some(&day_04::Day04b),
-    },
-    Day {
-        day: 5,
-        part1: Some(&day_05::Day05a),
-        part2: Some(&day_05::Day05b),
-    },
-    Day {
-        day: 6,
-        part1: Some(&day_06::Day06a),
-        part2: Some(&day_06::Day06b),
-    },
-    Day {
-        day: 7,
-        part1: Some(&day_07::Day07a),
-        part2: Some(&day_07::Day07b),
-    },
-    Day {
-        day: 8,
-        part1: Some(&day_08::Day08a),
-        part2: Some(&day_08::Day08b),
-    },
-    Day {
-        day: 9,
-        part1: Some(&day_09::Day09a),
-        part2: Some(&day_09::Day09b),
-    },
-    Day {
-        day: 10,
-        part1: Some(&day_10::Day10a),
-        part2: Some(&day_10::Day10b),
-    },
-    Day {
-        day: 11,
-        part1: Some(&day_11::Day11a),
-        part2: Some(&day_11::Day11b),
-    },
-    Day {
-        day: 12,
-        part1: Some(&day_12::Day12a),
-        part2: Some(&day_12::Day12b),
-    },
+mod download_input;
+
+pub static DAYS: &[&Day] = &[
+    &day_01a::SOLUTION,
+    &day_02a::SOLUTION,
+    &day_03a::SOLUTION,
+    &day_04::SOLUTION,
+    &day_05::SOLUTION,
+    &day_06::SOLUTION,
+    &day_07::SOLUTION,
+    &day_08::SOLUTION,
+    &day_09::SOLUTION,
+    &day_10::SOLUTION,
+    &day_11::SOLUTION,
+    &day_12::SOLUTION,
 ];
 
 pub trait Solution: Send + Sync {
     fn solve(&self) -> String;
 }
 
+pub fn get_input(day: u32) -> String {
+    std::fs::read_to_string(format!("inputs/day{:02}", day)).unwrap()
+}
+
 pub struct Day<'a> {
     pub day: u32,
     pub part1: Option<&'a dyn Solution>,
     pub part2: Option<&'a dyn Solution>,
+}
+
+#[macro_export]
+macro_rules! solution {
+    ($day:expr, $part1:expr) => {
+        struct Part1;
+        impl $crate::Solution for Part1 {
+            fn solve(&self) -> String {
+                debug_assert!($day >= 1 && $day <= 25);
+                format!("{}", $part1(&($crate::get_input($day))))
+            }
+        }
+
+        pub static SOLUTION: $crate::Day = $crate::Day {
+            day: $day,
+            part1: Some(&Part1),
+            part2: None,
+        };
+    };
+
+    ($day:expr, $part1:expr, $part2:expr) => {
+        struct Part1;
+        impl $crate::Solution for Part1 {
+            fn solve(&self) -> String {
+                debug_assert!($day >= 1 && $day <= 25);
+                format!("{}", $part1(&($crate::get_input($day))))
+            }
+        }
+
+        struct Part2;
+        impl $crate::Solution for Part2 {
+            fn solve(&self) -> String {
+                debug_assert!($day >= 1 && $day <= 25);
+                format!("{}", $part2(&($crate::get_input($day))))
+            }
+        }
+
+        pub static SOLUTION: $crate::Day = $crate::Day {
+            day: $day,
+            part1: Some(&Part1),
+            part2: Some(&Part2),
+        };
+    };
 }

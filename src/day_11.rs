@@ -1,3 +1,5 @@
+crate::solution!(11, solve_a, solve_b_million);
+
 use itertools::Itertools;
 use nom::{
     character::complete::{line_ending, none_of},
@@ -5,22 +7,7 @@ use nom::{
     IResult,
 };
 
-pub struct Day11a;
-pub struct Day11b;
-
-impl crate::Solution for Day11a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day11")))
-    }
-}
-
-impl crate::Solution for Day11b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day11"), 1_000_000))
-    }
-}
-
-fn solve_a(input: &str) -> u64 {
+pub fn solve_a(input: &str) -> u64 {
     let (_, mut map) = parse_input(input).expect("Failed to parse input");
 
     // Expand empty rows and columns
@@ -67,7 +54,11 @@ fn solve_a(input: &str) -> u64 {
     distances.sum()
 }
 
-fn solve_b(input: &str, expansion: u64) -> u64 {
+pub fn solve_b_million(input: &str) -> u64 {
+    solve_b(input, 1_000_000)
+}
+
+pub fn solve_b(input: &str, expansion: u64) -> u64 {
     let (_, map) = parse_input(input).expect("Failed to parse input");
 
     // Expand empty rows and columns

@@ -5,3 +5,9 @@
 # Flamegraph
 /flamegraph.svg
 /perf.data*
+
+# env
+/.env
+
+# Input files
+/inputs/day*

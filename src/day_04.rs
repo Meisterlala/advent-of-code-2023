@@ -1,17 +1,5 @@
-pub struct Day04a;
-pub struct Day04b;
+crate::solution!(4, solve_a, solve_b);
 
-impl crate::Solution for Day04a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day04")))
-    }
-}
-
-impl crate::Solution for Day04b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day04")))
-    }
-}
 
 use nom::{
     bytes::complete::tag,

@@ -1,3 +1,5 @@
+crate::solution!(6, solve_a, solve_b);
+
 use nom::{
     bytes::complete::tag,
     character::complete::{self, line_ending, multispace0, one_of, space0, space1},
@@ -7,28 +9,12 @@ use nom::{
     IResult,
 };
 
-pub struct Day06a;
-
-impl crate::Solution for Day06a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day06")))
-    }
-}
-
-pub struct Day06b;
-
-impl crate::Solution for Day06b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day06")))
-    }
-}
-
-fn solve_a(input: &str) -> u64 {
+pub fn solve_a(input: &str) -> u64 {
     let (_, records) = parse_a(input).expect("Could not parse input");
     records.iter().map(|r| r.win_count()).product()
 }
 
-fn solve_b(input: &str) -> u64 {
+pub fn solve_b(input: &str) -> u64 {
     let (_, records) = parse_b(input).expect("Could not parse input");
     records.iter().map(|r| r.win_count()).sum()
 }

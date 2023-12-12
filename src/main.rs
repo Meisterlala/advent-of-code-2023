@@ -1,5 +1,7 @@
 use advent_of_code_2023::{Day, DAYS};
 
+mod download_input;
+
 fn main() {
     println!("Running Advent of Code 2023...\n");
     println!("  Day  |  Part  | Solution");
@@ -20,6 +22,15 @@ fn main() {
 }
 
 fn run_day(day: &Day) {
+    if !download_input::check_if_present(day.day) {
+        println!("Day {:2} | Downloading Input ...", day.day);
+        if let Err(e) = download_input::download_input(day.day) {
+            let err = format!("Day {:2} | Failed to download input", day.day);
+            println!("{err}: {e}");
+            return;
+        }
+    }
+
     if let Some(p1) = day.part1 {
         println!("Day {:2} | Part 1 | {}", day.day, p1.solve());
     }

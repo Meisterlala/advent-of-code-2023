@@ -1,17 +1,5 @@
-pub struct Day05a;
-pub struct Day05b;
+crate::solution!(5, solve_a, solve_b);
 
-impl crate::Solution for Day05a {
-    fn solve(&self) -> String {
-        format!("{}", solve_a(include_str!("../inputs/day05")))
-    }
-}
-
-impl crate::Solution for Day05b {
-    fn solve(&self) -> String {
-        format!("{}", solve_b(include_str!("../inputs/day05")))
-    }
-}
 
 use std::{collections::HashSet, ops::Range};
 
@@ -23,12 +11,12 @@ use nom::{
     IResult,
 };
 
-fn solve_a(input: &str) -> u64 {
+pub fn solve_a(input: &str) -> u64 {
     let (_, game) = parse_game_a(input).expect("failed to parse game");
     game.min_location()
 }
 
-fn solve_b(input: &str) -> u64 {
+pub fn solve_b(input: &str) -> u64 {
     let (_, game) = parse_game_b(input).expect("failed to parse game");
     game.min_location()
 }

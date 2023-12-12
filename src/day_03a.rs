@@ -1,10 +1,5 @@
-pub struct Day03a;
+crate::solution!(3, solve, crate::day_03b::solve);
 
-impl crate::Solution for Day03a {
-    fn solve(&self) -> String {
-        format!("{}", solve(include_str!("../inputs/day03")))
-    }
-}
 use nom::{
     branch::alt,
     bytes::complete::tag,
@@ -14,7 +9,7 @@ use nom::{
     IResult,
 };
 
-fn solve(input: &str) -> u32 {
+pub fn solve(input: &str) -> u32 {
     let arr: Vec<Vec<char>> = to_array(input);
 
     let valid_numbers = all_valid_numbers(&arr);

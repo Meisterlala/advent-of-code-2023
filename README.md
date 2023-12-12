@@ -1,4 +1,4 @@
-# Advent of Code 2023 ![Build and test](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml/badge.svg)
+# Advent of Code 2023 [![Build and test](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml/badge.svg)](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml)
 
 ## What is Advent of Code?
 

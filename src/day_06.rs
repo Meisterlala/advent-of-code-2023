@@ -65,6 +65,7 @@ impl Record {
         hold_time * (self.time - hold_time)
     }
 
+    // https://www.wikiwand.com/en/Quadratic_programming
     fn min_max_time(&self) -> (u64, u64) {
         // distance = hold * (time - hold)
         // hold_1 = (time - sqrt(time^2 - 4*distance)) / 2

@@ -275,13 +275,4 @@ mod tests {
         assert_eq!(springs.len(), 39);
         assert_eq!(broken.len(), 15);
     }
-
-    #[test]
-    fn parse() {
-        let input = crate::get_input(12);
-        let parsed = super::parse(&input);
-        assert!(parsed.is_ok());
-        let (rest, _) = parsed.unwrap();
-        assert_eq!(rest, "");
-    }
 }

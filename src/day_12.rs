@@ -1,4 +1,4 @@
-use std::usize;
+use std::{collections::HashMap, usize};
 
 use nom::{
     branch::alt,
@@ -20,16 +20,8 @@ impl crate::Solution for Day12a {
 
 impl crate::Solution for Day12b {
     fn solve(&self) -> String {
-        // format!("{}", solve_b(include_str!("../inputs/day11"), 1_000_000))
-        todo!()
+        format!("{}", solve_b(include_str!("../inputs/day12")))
     }
-}
-
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
-enum Condition {
-    Operational,
-    Damaged,
-    Unknown,
 }
 
 fn solve_a(input: &str) -> u64 {
@@ -39,6 +31,25 @@ fn solve_a(input: &str) -> u64 {
         .iter()
         .map(|(conditions, broken)| arrangements(conditions, broken))
         .sum()
+}
+
+fn solve_b(input: &str) -> u64 {
+    let (_, springs) = parse(input).expect("Failed to parse input");
+
+    springs
+        .into_iter()
+        .map(|spring| {
+            let (conditions, broken) = expand(spring);
+            arrangements(&conditions, &broken)
+        })
+        .sum()
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
+enum Condition {
+    Operational,
+    Damaged,
+    Unknown,
 }
 
 type Broken = u16;
@@ -58,7 +69,33 @@ fn parse(input: &str) -> nom::IResult<&str, Vec<Springs>> {
     separated_list1(line_ending, parse_springs)(input)
 }
 
-fn arrangements(conditions: &[Condition], broken: &[Broken]) -> u64 {
+fn expand(springs: Springs) -> Springs {
+    let (conditions, broken) = springs;
+
+    // Expand Vector to fit all possible combinations
+    let ex_conditions_count = conditions.len() * 5 + 4;
+    let ex_broken_count = broken.len() * 5;
+    let mut ex_conditions = Vec::with_capacity(ex_conditions_count);
+    let mut ex_broken = Vec::with_capacity(ex_broken_count);
+
+    ex_conditions.extend(
+        conditions
+            .into_iter()
+            .chain(std::iter::once(Condition::Unknown))
+            .cycle()
+            .take(ex_conditions_count),
+    );
+    ex_broken.extend(broken.into_iter().cycle().take(ex_broken_count));
+
+    (ex_conditions, ex_broken)
+}
+
+type DpMap<'a> = HashMap<(&'a [Condition], &'a [Broken]), u64>;
+fn dp_arrangements<'a>(
+    conditions: &'a [Condition],
+    broken: &'a [Broken],
+    dp: &mut DpMap<'a>,
+) -> u64 {
     // If the there not supposed to be any more broken springs, and all conditions are operational or unknown
     if broken.is_empty() {
         // We have a valid arrangement
@@ -94,11 +131,16 @@ fn arrangements(conditions: &[Condition], broken: &[Broken]) -> u64 {
         return 0;
     }
 
+    // If we have already calculated the number of arrangements for this state, return it
+    if let Some(&arrangements) = dp.get(&(conditions, broken)) {
+        return arrangements;
+    }
+
     let mut valid = 0;
 
     // Try to skip spring at current location, assuming that its operational
     if matches!(conditions[0], Condition::Operational | Condition::Unknown) {
-        valid += arrangements(&conditions[1..], broken);
+        valid += dp_arrangements(&conditions[1..], broken, dp);
     }
 
     // Try to fit springs at current location, knowing that the next spring after the group is operational
@@ -112,10 +154,17 @@ fn arrangements(conditions: &[Condition], broken: &[Broken]) -> u64 {
             Condition::Operational | Condition::Unknown
         )
     {
-        valid += arrangements(&conditions[broken[0] as usize + 1..], &broken[1..]);
+        valid += dp_arrangements(&conditions[broken[0] as usize + 1..], &broken[1..], dp);
     }
 
+    // Insert the number of arrangements for this state into the dp map
+    dp.insert((conditions, broken), valid);
     valid
+}
+
+fn arrangements(conditions: &[Condition], broken: &[Broken]) -> u64 {
+    let mut dp = HashMap::new();
+    dp_arrangements(conditions, broken, &mut dp)
 }
 
 #[cfg(test)]
@@ -132,6 +181,11 @@ mod tests {
     #[test]
     fn example_a() {
         assert_eq!(solve_a(EXAMPLE), 21);
+    }
+
+    #[test]
+    fn example_b() {
+        assert_eq!(solve_b(EXAMPLE), 525152);
     }
 
     #[test]
@@ -168,6 +222,19 @@ mod tests {
     fn arrage_6() {
         let (_, (springs, broken)) = parse_springs("?###???????? 3,2,1").unwrap();
         assert_eq!(arrangements(&springs, &broken), 10);
+    }
+
+    #[test]
+    fn expand() {
+        let (_, (springs, broken)) = parse_springs(".# 1").unwrap();
+        let (springs, broken) = super::expand((springs, broken));
+        assert_eq!(springs.len(), 14);
+        assert_eq!(broken.len(), 5);
+
+        let (_, (springs, broken)) = parse_springs("???.### 1,1,3").unwrap();
+        let (springs, broken) = super::expand((springs, broken));
+        assert_eq!(springs.len(), 39);
+        assert_eq!(broken.len(), 15);
     }
 
     #[test]

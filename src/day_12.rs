@@ -1,5 +1,3 @@
-use std::{collections::HashMap, usize};
-
 use nom::{
     branch::alt,
     character::complete::char,
@@ -90,11 +88,13 @@ fn expand(springs: Springs) -> Springs {
     (ex_conditions, ex_broken)
 }
 
-type DpMap<'a> = HashMap<(&'a [Condition], &'a [Broken]), u64>;
+type DpMap = Vec<Vec<Option<u64>>>;
 fn dp_arrangements<'a>(
     conditions: &'a [Condition],
     broken: &'a [Broken],
-    dp: &mut DpMap<'a>,
+    dp: &mut DpMap,
+    index_1: usize,
+    index_2: usize,
 ) -> u64 {
     // If the there not supposed to be any more broken springs, and all conditions are operational or unknown
     if broken.is_empty() {
@@ -132,7 +132,7 @@ fn dp_arrangements<'a>(
     }
 
     // If we have already calculated the number of arrangements for this state, return it
-    if let Some(&arrangements) = dp.get(&(conditions, broken)) {
+    if let Some(arrangements) = dp[index_1][index_2] {
         return arrangements;
     }
 
@@ -140,7 +140,7 @@ fn dp_arrangements<'a>(
 
     // Try to skip spring at current location, assuming that its operational
     if matches!(conditions[0], Condition::Operational | Condition::Unknown) {
-        valid += dp_arrangements(&conditions[1..], broken, dp);
+        valid += dp_arrangements(&conditions[1..], broken, dp, index_1 + 1, index_2);
     }
 
     // Try to fit springs at current location, knowing that the next spring after the group is operational
@@ -154,17 +154,23 @@ fn dp_arrangements<'a>(
             Condition::Operational | Condition::Unknown
         )
     {
-        valid += dp_arrangements(&conditions[broken[0] as usize + 1..], &broken[1..], dp);
+        valid += dp_arrangements(
+            &conditions[broken[0] as usize + 1..],
+            &broken[1..],
+            dp,
+            index_1 + broken[0] as usize + 1,
+            index_2 + 1,
+        );
     }
 
     // Insert the number of arrangements for this state into the dp map
-    dp.insert((conditions, broken), valid);
+    dp[index_1][index_2] = Some(valid);
     valid
 }
 
 fn arrangements(conditions: &[Condition], broken: &[Broken]) -> u64 {
-    let mut dp = HashMap::new();
-    dp_arrangements(conditions, broken, &mut dp)
+    let mut dp = vec![vec!(None; broken.len()); conditions.len()];
+    dp_arrangements(conditions, broken, &mut dp, 0, 0)
 }
 
 #[cfg(test)]

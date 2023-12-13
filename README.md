@@ -2,22 +2,39 @@
 
 ## What is Advent of Code?
 
-[Advent of Code](https://adventofcode.com/) is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like.
-
-### What is this repository?
-
-This repository contains my solutions to the Advent of Code 2023 puzzles
+[Advent of Code](https://adventofcode.com/) is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. This repository contains my solutions to the Advent of Code 2023 puzzles
 
 
 ### Some of the techniques used in the solutions
 
-- [Parser combinator](https://en.wikipedia.org/wiki/Parser_combinator): to read the puzzle inputs
+- [Parser combinator](https://en.wikipedia.org/wiki/Parser_combinator) to read the puzzle inputs
 - Range math to track multible mappings between values during [Day 05](src/day_05.rs)
 - [Quadratic programming](https://en.wikipedia.org/wiki/Quadratic_programming) during [Day 06](src/day_06.rs) to find the minimum and maximum of a function. Which avoids having to use a brute force approach and instead solving it in constant time.
 - [Cycle detection](https://en.wikipedia.org/wiki/Cycle_detection) during [Day 08](src/day_07.rs) to count the length of a sub cycle and then use that to calculate the length of the full cycle with the (least common multiple)[https://en.wikipedia.org/wiki/Least_common_multiple].
 - [Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) during [Day 09](src/day_09.rs) to calculate the binomial coefficients and pretict the next value in a sequence.
 - [Point in Polygon](https://en.wikipedia.org/wiki/Point_in_polygon) during [Day 10](src/day_10.rs) to determine how many free spaces are enclosed by a line.
 - [Dynamic Programming](https://en.wikipedia.org/wiki/Dynamic_programming) during [Day 12](src/day_12.rs) to solve the recursivness of the problem in a reasonable time.
+
+
+## Solutions
+
+| Day                                                                            | Stars         |         Code          | Execution Time |
+| :----------------------------------------------------------------------------- | :------------ | :-------------------: | -------------: |
+| [Day 01: Trebuchet?!](https://adventofcode.com/2023/day/1)                     | :star: :star: | [Code](src/day_01.rs) |       1.003 ms |
+| [Day 02: Cube Conundrum](https://adventofcode.com/2023/day/2)                  | :star: :star: | [Code](src/day_02.rs) |       0.325 ms |
+| [Day 03: Gear Ratios](https://adventofcode.com/2023/day/3)                     | :star: :star: | [Code](src/day_03.rs) |       4.476 ms |
+| [Day 04: Scratchcards](https://adventofcode.com/2023/day/4)                    | :star: :star: | [Code](src/day_04.rs) |       0.867 ms |
+| [Day 05: If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5) | :star: :star: | [Code](src/day_05.rs) |       0.360 ms |
+| [Day 06: Wait For It](https://adventofcode.com/2023/day/6)                     | :star: :star: | [Code](src/day_06.rs) |       0.068 ms |
+| [Day 07: Camel Cards](https://adventofcode.com/2023/day/7)                     | :star: :star: | [Code](src/day_07.rs) |       2.450 ms |
+| [Day 08: Haunted Wasteland](https://adventofcode.com/2023/day/8)               | :star: :star: | [Code](src/day_08.rs) |       3.930 ms |
+| [Day 09: Mirage Maintenance](https://adventofcode.com/2023/day/9)              | :star: :star: | [Code](src/day_09.rs) |       0.929 ms |
+| [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)                      | :star: :star: | [Code](src/day_10.rs) |       2.291 ms |
+| [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)               | :star: :star: | [Code](src/day_11.rs) |       2.566 ms |
+| [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)                    | :star: :star: | [Code](src/day_12.rs) |       4.443 ms |
+
+
+## Try it out
 
 ### How to run the code?
 
@@ -42,20 +59,3 @@ The performance of the code can be benchmarked using the following command:
 cargo bench
 cargo bench -- day01
 ```
-
-## Solutions
-
-| Day                                                                            | Stars         |         Code          | Execution Time |
-| :----------------------------------------------------------------------------- | :------------ | :-------------------: | -------------: |
-| [Day 01: Trebuchet?!](https://adventofcode.com/2023/day/1)                     | :star: :star: | [Code](src/day_01.rs) |       1.003 ms |
-| [Day 02: Cube Conundrum](https://adventofcode.com/2023/day/2)                  | :star: :star: | [Code](src/day_02.rs) |       0.325 ms |
-| [Day 03: Gear Ratios](https://adventofcode.com/2023/day/3)                     | :star: :star: | [Code](src/day_03.rs) |       4.476 ms |
-| [Day 04: Scratchcards](https://adventofcode.com/2023/day/4)                    | :star: :star: | [Code](src/day_04.rs) |       0.867 ms |
-| [Day 05: If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5) | :star: :star: | [Code](src/day_05.rs) |       0.360 ms |
-| [Day 06: Wait For It](https://adventofcode.com/2023/day/6)                     | :star: :star: | [Code](src/day_06.rs) |       0.068 ms |
-| [Day 07: Camel Cards](https://adventofcode.com/2023/day/7)                     | :star: :star: | [Code](src/day_07.rs) |       2.450 ms |
-| [Day 08: Haunted Wasteland](https://adventofcode.com/2023/day/8)               | :star: :star: | [Code](src/day_08.rs) |       3.930 ms |
-| [Day 09: Mirage Maintenance](https://adventofcode.com/2023/day/9)              | :star: :star: | [Code](src/day_09.rs) |       0.929 ms |
-| [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)                      | :star: :star: | [Code](src/day_10.rs) |       2.291 ms |
-| [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)               | :star: :star: | [Code](src/day_11.rs) |       2.566 ms |
-| [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)                    | :star: :star: | [Code](src/day_12.rs) |       4.443 ms |

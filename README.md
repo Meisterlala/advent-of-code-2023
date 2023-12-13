@@ -1,5 +1,5 @@
 #  Advent of Code 2023   <img src="./.github/christmas_ferris.png" align="right" width="300">
-[![Build and test](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml/badge.svg)](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml) ![LoC](https://tokei.rs/b1/github/Meisterlala/advent-of-code-2023)  ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/meisterlala/advent-of-code-2023/main)
+[![Build and test](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml/badge.svg)](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml) [![LoC](https://tokei.rs/b1/github/Meisterlala/advent-of-code-2023)](https://github.com/search?q=repo%3AMeisterlala%2Fadvent-of-code-2023++language%3ARust&type=code)  [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/meisterlala/advent-of-code-2023/main)](https://github.com/Meisterlala/advent-of-code-2023/commits/main/)
 
 ## What is Advent of Code? 🎄
 

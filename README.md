@@ -46,4 +46,4 @@ cargo bench -- day01
 | [Day 09: Mirage Maintenance](https://adventofcode.com/2023/day/9)              | :star: :star: | [Code](src/day_09.rs) |       0.875 ms |
 | [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)                      | :star: :star: | [Code](src/day_10.rs) |       2.234 ms |
 | [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)               | :star: :star: | [Code](src/day_11.rs) |       2.492 ms |
-| [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)                    | :star: :star: | [Code](src/day_12.rs) |       13.81 ms |
+| [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)                    | :star: :star: | [Code](src/day_12.rs) |      13.810 ms |

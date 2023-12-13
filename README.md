@@ -9,12 +9,12 @@
 ### Some of the techniques used in the solutions
 
 - [Parser combinator](https://en.wikipedia.org/wiki/Parser_combinator) to read the puzzle inputs
-- Range math to track multible mappings between values during [Day 05](src/day_05.rs)
+- Range math to track multiple mappings between values during [Day 05](src/day_05.rs)
 - [Quadratic programming](https://en.wikipedia.org/wiki/Quadratic_programming) during [Day 06](src/day_06.rs) to find the minimum and maximum of a function. Which avoids having to use a brute force approach and instead solving it in constant time.
 - [Cycle detection](https://en.wikipedia.org/wiki/Cycle_detection) during [Day 08](src/day_07.rs) to count the length of a sub cycle and then use that to calculate the length of the full cycle with the [least common multiple](https://en.wikipedia.org/wiki/Least_common_multiple).
-- [Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) during [Day 09](src/day_09.rs) to calculate the binomial coefficients and pretict the next value in a sequence.
+- [Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) during [Day 09](src/day_09.rs) to calculate the binomial coefficients and predict the next value in a sequence.
 - [Point in Polygon](https://en.wikipedia.org/wiki/Point_in_polygon) during [Day 10](src/day_10.rs) to determine how many free spaces are enclosed by a line.
-- [Dynamic Programming](https://en.wikipedia.org/wiki/Dynamic_programming) during [Day 12](src/day_12.rs) to solve the recursivness of the problem in a reasonable time.
+- [Dynamic Programming](https://en.wikipedia.org/wiki/Dynamic_programming) during [Day 12](src/day_12.rs) to solve the recursiveness of the problem in a reasonable time.
 
 
 ## Solutions
@@ -39,24 +39,25 @@
 
 ### How to run the code?
 
-You will need to get the input for the puzzles from the [Advent of Code](https://adventofcode.com/) website and place them into [the input folder](input).
-To run the code, you need to have Rust installed. You can install Rust from [here](https://www.rust-lang.org/tools/install). Once you have Rust installed, you execute all the days using the following command:
+To run the code, you'll first need to obtain the puzzle inputs from the [Advent of Code](https://adventofcode.com/) website and place them in the [input folder](input). Or save your session cookie in the environment variable `AOC_SESSION`.
 
-```bash
+You'll also need to have Rust installed on your system. If you haven't installed it yet, you can download it from [here](https://www.rust-lang.org/tools/install). Once you have Rust installed and the inputs in place, you can run all the puzzles using the following command:
+
+```sh
+# Run all the days
 cargo run --release
-```
-
-or you can execute a specific day using the following command:
-
-```bash
+# Run a specific days
 cargo run --release -- day01
 ```
 
+
 ### How to benchmark the code?
 
-The performance of the code can be benchmarked using the following command:
+You can benchmark the performance of the code using the following commands:
 
-```bash
+```sh
+# Benchmark all the days
 cargo bench
+# Benchmark a specific days
 cargo bench -- day01
 ```

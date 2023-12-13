@@ -10,7 +10,7 @@
 - [Parser combinator](https://en.wikipedia.org/wiki/Parser_combinator) to read the puzzle inputs
 - Range math to track multible mappings between values during [Day 05](src/day_05.rs)
 - [Quadratic programming](https://en.wikipedia.org/wiki/Quadratic_programming) during [Day 06](src/day_06.rs) to find the minimum and maximum of a function. Which avoids having to use a brute force approach and instead solving it in constant time.
-- [Cycle detection](https://en.wikipedia.org/wiki/Cycle_detection) during [Day 08](src/day_07.rs) to count the length of a sub cycle and then use that to calculate the length of the full cycle with the (least common multiple)[https://en.wikipedia.org/wiki/Least_common_multiple].
+- [Cycle detection](https://en.wikipedia.org/wiki/Cycle_detection) during [Day 08](src/day_07.rs) to count the length of a sub cycle and then use that to calculate the length of the full cycle with the [least common multiple](https://en.wikipedia.org/wiki/Least_common_multiple).
 - [Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) during [Day 09](src/day_09.rs) to calculate the binomial coefficients and pretict the next value in a sequence.
 - [Point in Polygon](https://en.wikipedia.org/wiki/Point_in_polygon) during [Day 10](src/day_10.rs) to determine how many free spaces are enclosed by a line.
 - [Dynamic Programming](https://en.wikipedia.org/wiki/Dynamic_programming) during [Day 12](src/day_12.rs) to solve the recursivness of the problem in a reasonable time.

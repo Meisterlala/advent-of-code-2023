@@ -1,6 +1,7 @@
-# Advent of Code 2023 [![Build and test](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml/badge.svg)](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml)
+#  Advent of Code 2023   <img src="./.github/christmas_ferris.png" align="right" width="300">
+[![Build and test](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml/badge.svg)](https://github.com/Meisterlala/advent-of-code-2023/actions/workflows/rust.yml) ![LoC](https://tokei.rs/b1/github/Meisterlala/advent-of-code-2023)  ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/meisterlala/advent-of-code-2023/main)
 
-## What is Advent of Code?
+## What is Advent of Code? 🎄
 
 [Advent of Code](https://adventofcode.com/) is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. This repository contains my solutions to the Advent of Code 2023 puzzles
 

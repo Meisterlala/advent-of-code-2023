@@ -9,16 +9,18 @@ use nom::{
     sequence::separated_pair,
 };
 
+use rayon::prelude::*;
+
 pub fn solve_a(input: &str) -> u64 {
     let (_, springs) = parse(input).expect("Failed to parse input");
 
-    arrangements_sum(springs.into_iter())
+    arrangements_sum_par(springs.into_par_iter())
 }
 
 pub fn solve_b(input: &str) -> u64 {
     let (_, springs) = parse(input).expect("Failed to parse input");
 
-    arrangements_sum(springs.into_iter().map(expand))
+    arrangements_sum_par(springs.into_par_iter().map(expand))
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
@@ -98,6 +100,12 @@ unsafe fn dp_arrangements<'a>(
         }
     }
 
+    // If we have already calculated the number of arrangements for this state, return it
+    debug_assert!(map_to_1d(index_1, index_2, index_1_max) < dp.len());
+    if let Some(arrangements) = dp.get_unchecked(map_to_1d(index_1, index_2, index_1_max)) {
+        return *arrangements;
+    }
+
     // If to many springs are broken, we dont have any valid arrangements
     if broken.iter().map(|i| *i as usize).sum::<usize>() + broken.len().saturating_sub(1)
         > conditions.len()
@@ -108,12 +116,6 @@ unsafe fn dp_arrangements<'a>(
     // If there are no more inputs, we dont have any more arangements
     if conditions.is_empty() {
         return 0;
-    }
-
-    // If we have already calculated the number of arrangements for this state, return it
-    debug_assert!(map_to_1d(index_1, index_2, index_1_max) < dp.len());
-    if let Some(arrangements) = dp.get_unchecked(map_to_1d(index_1, index_2, index_1_max)) {
-        return *arrangements;
     }
 
     let mut valid = 0;
@@ -173,6 +175,15 @@ fn arrangements(
     unsafe { dp_arrangements(conditions, broken, dp_buffer, 0, 0, max_conditions) }
 }
 
+fn arrangements_create_buf(conditions: &[Condition], broken: &[Broken]) -> u64 {
+    // Make sure that the dp buffer is large enough
+    let mut dp_buffer = vec![None; conditions.len() * broken.len()];
+    let max_conditions = conditions.len();
+
+    unsafe { dp_arrangements(conditions, broken, &mut dp_buffer, 0, 0, max_conditions) }
+}
+
+#[allow(dead_code)]
 fn arrangements_sum<I>(springs: I) -> u64
 where
     I: Iterator<Item = Springs> + Clone,
@@ -199,6 +210,16 @@ where
         .sum()
 }
 
+fn arrangements_sum_par<I>(springs: I) -> u64
+where
+    I: ParallelIterator<Item = Springs> + Clone,
+{
+    springs
+        .into_par_iter()
+        .map(|(conditions, broken)| arrangements_create_buf(&conditions, &broken))
+        .sum()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -220,47 +241,40 @@ mod tests {
         assert_eq!(solve_b(EXAMPLE), 525152);
     }
 
-    fn arrangements(conditions: &[Condition], broken: &[Broken]) -> u64 {
-        // Make sure that the dp buffer is large enough
-        let mut dp_buffer = vec![None; broken.len() * conditions.len()];
-
-        unsafe { dp_arrangements(conditions, broken, &mut dp_buffer, 0, 0, conditions.len()) }
-    }
-
     #[test]
     fn arrage_1() {
         let (_, (springs, broken)) = parse_springs("???.### 1,1,3").unwrap();
-        assert_eq!(arrangements(&springs, &broken), 1);
+        assert_eq!(arrangements_create_buf(&springs, &broken), 1);
     }
 
     #[test]
     fn arrage_2() {
         let (_, (springs, broken)) = parse_springs(".??..??...?##. 1,1,3").unwrap();
-        assert_eq!(arrangements(&springs, &broken), 4);
+        assert_eq!(arrangements_create_buf(&springs, &broken), 4);
     }
 
     #[test]
     fn arrage_3() {
         let (_, (springs, broken)) = parse_springs("?#?#?#?#?#?#?#? 1,3,1,6").unwrap();
-        assert_eq!(arrangements(&springs, &broken), 1);
+        assert_eq!(arrangements_create_buf(&springs, &broken), 1);
     }
 
     #[test]
     fn arrage_4() {
         let (_, (springs, broken)) = parse_springs("????.#...#... 4,1,1").unwrap();
-        assert_eq!(arrangements(&springs, &broken), 1);
+        assert_eq!(arrangements_create_buf(&springs, &broken), 1);
     }
 
     #[test]
     fn arrage_5() {
         let (_, (springs, broken)) = parse_springs("????.######..#####. 1,6,5").unwrap();
-        assert_eq!(arrangements(&springs, &broken), 4);
+        assert_eq!(arrangements_create_buf(&springs, &broken), 4);
     }
 
     #[test]
     fn arrage_6() {
         let (_, (springs, broken)) = parse_springs("?###???????? 3,2,1").unwrap();
-        assert_eq!(arrangements(&springs, &broken), 10);
+        assert_eq!(arrangements_create_buf(&springs, &broken), 10);
     }
 
     #[test]

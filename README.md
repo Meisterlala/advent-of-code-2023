@@ -39,7 +39,7 @@
 
 ### How to run the code?
 
-To run the code, you'll first need to obtain the puzzle inputs from the [Advent of Code](https://adventofcode.com/) website and place them in the [input folder](input). Or save your session cookie in the environment variable `AOC_SESSION`.
+To run the code, you'll first need to obtain the puzzle inputs from the [Advent of Code](https://adventofcode.com/) website and place them in the [input folder](inputs). Or save your session cookie in the environment variable `AOC_SESSION`.
 
 You'll also need to have Rust installed on your system. If you haven't installed it yet, you can download it from [here](https://www.rust-lang.org/tools/install). Once you have Rust installed and the inputs in place, you can run all the puzzles using the following command:
 

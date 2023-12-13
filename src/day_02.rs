@@ -1,4 +1,27 @@
-pub fn solve(input: &str) -> u32 {
+crate::solution!(2, solve_a, solve_b);
+
+pub fn solve_a(input: &str) -> u32 {
+    let mut sum = 0;
+    for line in input.lines() {
+        // Game 1: 8 green, 6 blue, 20 red
+        let game: Vec<_> = line.split(':').collect();
+        let game_index: i32 = game[0].split(' ').last().unwrap().parse().unwrap();
+
+        // Split by ;
+        let valid = game[1].split(';').all(|set| {
+            let cubes = Cubes::from(set);
+            // Check if possible set
+            cubes.red <= MAX.red && cubes.green <= MAX.green && cubes.blue <= MAX.blue
+        });
+
+        if valid {
+            sum += game_index as u32;
+        }
+    }
+    sum
+}
+
+pub fn solve_b(input: &str) -> u32 {
     let mut sum = 0;
     for line in input.lines() {
         // Game 1: 8 green, 6 blue, 20 red
@@ -25,6 +48,12 @@ struct Cubes {
     green: u32,
     blue: u32,
 }
+
+static MAX: &Cubes = &Cubes {
+    red: 12,
+    green: 13,
+    blue: 14,
+};
 
 impl Cubes {
     #[allow(dead_code)]
@@ -83,6 +112,12 @@ impl From<&str> for Cubes {
 mod tests {
     use super::*;
 
+    static EXAMPLE: &str = r#"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"#;
+
     #[test]
     fn parse() {
         let input = " 8 green, 6 blue, 20 red";
@@ -93,42 +128,43 @@ mod tests {
     }
 
     #[test]
-    fn example() {
-        let input = r#"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-        Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-        Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-        Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-        Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"#;
-        assert_eq!(solve(input), 2286);
+    fn example_a() {
+        assert_eq!(solve_a(EXAMPLE), 1 + 2 + 5);
+    }
+
+    #[test]
+
+    fn example_b() {
+        assert_eq!(solve_b(EXAMPLE), 2286);
     }
 
     #[test]
     fn line_1() {
         let input = r#"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"#;
-        assert_eq!(solve(input), 48);
+        assert_eq!(solve_b(input), 48);
     }
 
     #[test]
     fn line_2() {
         let input = r#"Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue"#;
-        assert_eq!(solve(input), 12);
+        assert_eq!(solve_b(input), 12);
     }
 
     #[test]
     fn line_3() {
         let input = r#"Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"#;
-        assert_eq!(solve(input), 1560);
+        assert_eq!(solve_b(input), 1560);
     }
 
     #[test]
     fn line_4() {
         let input = r#"Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"#;
-        assert_eq!(solve(input), 630);
+        assert_eq!(solve_b(input), 630);
     }
 
     #[test]
     fn line_5() {
         let input = r#"Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"#;
-        assert_eq!(solve(input), 36);
+        assert_eq!(solve_b(input), 36);
     }
 }

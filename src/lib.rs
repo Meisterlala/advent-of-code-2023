@@ -1,9 +1,6 @@
-mod day_01a;
-mod day_01b;
-mod day_02a;
-mod day_02b;
-mod day_03a;
-mod day_03b;
+mod day_01;
+mod day_02;
+mod day_03;
 mod day_04;
 mod day_05;
 mod day_06;
@@ -17,9 +14,9 @@ mod day_12;
 mod download_input;
 
 pub static DAYS: &[&Day] = &[
-    &day_01a::SOLUTION,
-    &day_02a::SOLUTION,
-    &day_03a::SOLUTION,
+    &day_01::SOLUTION,
+    &day_02::SOLUTION,
+    &day_03::SOLUTION,
     &day_04::SOLUTION,
     &day_05::SOLUTION,
     &day_06::SOLUTION,

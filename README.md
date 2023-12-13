@@ -33,17 +33,17 @@ cargo bench -- day01
 
 ## Solutions
 
-| Day                                                                            | Stars         | Part One               | Part Two               | Execution Time |
-| :----------------------------------------------------------------------------- | ------------- | ---------------------- | ---------------------- | -------------: |
-| [Day 01: Trebuchet?!](https://adventofcode.com/2023/day/1)                     | :star: :star: | [Code](src/day_01a.rs) | [Code](src/day_01b.rs) |       1.095 ms |
-| [Day 02: Cube Conundrum](https://adventofcode.com/2023/day/2)                  | :star: :star: | [Code](src/day_02a.rs) | [Code](src/day_02b.rs) |       0.278 ms |
-| [Day 03: Gear Ratios](https://adventofcode.com/2023/day/3)                     | :star: :star: | [Code](src/day_03a.rs) | [Code](src/day_03b.rs) |       4.343 ms |
-| [Day 04: Scratchcards](https://adventofcode.com/2023/day/4)                    | :star: :star: | [Code](src/day_04.rs)  | [Code](src/day_04.rs)  |       0.881 ms |
-| [Day 05: If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5) | :star: :star: | [Code](src/day_05.rs)  | [Code](src/day_05.rs)  |       0.301 ms |
-| [Day 06: Wait For It](https://adventofcode.com/2023/day/6)                     | :star: :star: | [Code](src/day_06.rs)  | [Code](src/day_06.rs)  |       0.002 ms |
-| [Day 07: Camel Cards](https://adventofcode.com/2023/day/7)                     | :star: :star: | [Code](src/day_07.rs)  | [Code](src/day_07.rs)  |       2.274 ms |
-| [Day 08: Haunted Wasteland](https://adventofcode.com/2023/day/8)               | :star: :star: | [Code](src/day_08.rs)  | [Code](src/day_08.rs)  |       3.990 ms |
-| [Day 09: Mirage Maintenance](https://adventofcode.com/2023/day/9)              | :star: :star: | [Code](src/day_09.rs)  | [Code](src/day_09.rs)  |       0.875 ms |
-| [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)                      | :star: :star: | [Code](src/day_10.rs)  | [Code](src/day_10.rs)  |       2.234 ms |
-| [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)               | :star: :star: | [Code](src/day_11.rs)  | [Code](src/day_11.rs)  |       2.492 ms |
-| [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)                    | :star: :star: | [Code](src/day_12.rs)  | [Code](src/day_12.rs)  |       13.81 ms |
+| Day                                                                            | Stars         |         Code          | Execution Time |
+| :----------------------------------------------------------------------------- | :------------ | :-------------------: | -------------: |
+| [Day 01: Trebuchet?!](https://adventofcode.com/2023/day/1)                     | :star: :star: | [Code](src/day_01.rs) |       1.095 ms |
+| [Day 02: Cube Conundrum](https://adventofcode.com/2023/day/2)                  | :star: :star: | [Code](src/day_02.rs) |       0.278 ms |
+| [Day 03: Gear Ratios](https://adventofcode.com/2023/day/3)                     | :star: :star: | [Code](src/day_03.rs) |       4.343 ms |
+| [Day 04: Scratchcards](https://adventofcode.com/2023/day/4)                    | :star: :star: | [Code](src/day_04.rs) |       0.881 ms |
+| [Day 05: If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5) | :star: :star: | [Code](src/day_05.rs) |       0.301 ms |
+| [Day 06: Wait For It](https://adventofcode.com/2023/day/6)                     | :star: :star: | [Code](src/day_06.rs) |       0.002 ms |
+| [Day 07: Camel Cards](https://adventofcode.com/2023/day/7)                     | :star: :star: | [Code](src/day_07.rs) |       2.274 ms |
+| [Day 08: Haunted Wasteland](https://adventofcode.com/2023/day/8)               | :star: :star: | [Code](src/day_08.rs) |       3.990 ms |
+| [Day 09: Mirage Maintenance](https://adventofcode.com/2023/day/9)              | :star: :star: | [Code](src/day_09.rs) |       0.875 ms |
+| [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)                      | :star: :star: | [Code](src/day_10.rs) |       2.234 ms |
+| [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)               | :star: :star: | [Code](src/day_11.rs) |       2.492 ms |
+| [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)                    | :star: :star: | [Code](src/day_12.rs) |       13.81 ms |

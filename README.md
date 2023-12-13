@@ -33,6 +33,7 @@
 | [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)                      | :star: :star: | [Code](src/day_10.rs) |       2.291 ms |
 | [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)               | :star: :star: | [Code](src/day_11.rs) |       2.566 ms |
 | [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)                    | :star: :star: | [Code](src/day_12.rs) |       4.443 ms |
+| [Day 13: Point of Incidence](https://adventofcode.com/2023/day/13)             | :star: :star: | [Code](src/day_13.rs) |       1.251 ms |
 
 
 ## Try it out

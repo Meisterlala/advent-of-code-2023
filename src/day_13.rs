@@ -1,4 +1,3 @@
-use itertools::Itertools;
 use nom::{
     bytes::complete::is_a,
     character::complete::{line_ending, multispace1},
@@ -18,7 +17,7 @@ pub fn solve_a(input: &str) -> u64 {
             } else if let Some(i) = mirrors(&transpose(&p.content)).next() {
                 i
             } else {
-                0
+                panic!("No mirror found")
             }
         })
         .sum::<usize>() as u64
@@ -29,33 +28,15 @@ pub fn solve_b(input: &str) -> u64 {
     patterns
         .iter()
         .map(|p| {
-            let mut normal_it = mirrors_smudged(&p.content);
-            let trans = transpose(&p.content);
-            let mut trans_it = mirrors_smudged(&trans);
-
-            let normal_reflection = match (normal_it.next(), trans_it.next()) {
-                (_, Some(i)) if i.0 == 0 => i.1,
-                (Some(i), _) if i.0 == 0 => i.1,
-                (_, _) => panic!("No reflection found"),
-            };
-
-            dbg!(normal_reflection);
-
-            normal_it
-                .find(|(d, ix)| *d == 1)
-                .map(|(d, ix)| {
-                    dbg!(&d, ix,);
-                    ix as u64 * 100
-                })
-                .or_else(|| {
-                    trans_it.find(|(d, ix)| *d == 1).map(|(d, ix)| {
-                        dbg!(&d, ix,);
-                        ix as u64
-                    })
-                })
-                .expect("No Smudge found")
+            if let Some(i) = mirrors_smudged(&p.content).next() {
+                i * 100
+            } else if let Some(i) = mirrors_smudged(&transpose(&p.content)).next() {
+                i
+            } else {
+                panic!("No smudged mirror found")
+            }
         })
-        .sum()
+        .sum::<usize>() as u64
 }
 
 struct Pattern {
@@ -86,29 +67,38 @@ fn mirrors(input: &Vec<String>) -> impl Iterator<Item = usize> + '_ {
         let right = &input[*ix..];
         let size = left.len().min(right.len());
 
-        let is_same = (0..size).all(|pos| *left[pos] == right[pos]);
-        // dbg!(&left, &right, is_same);
-        is_same
+        (0..size).all(|pos| *left[pos] == right[pos])
     })
 }
 
 /// Returns the sorted list of (differences, index) pairs
-fn mirrors_smudged(input: &Vec<String>) -> impl Iterator<Item = (usize, usize)> + '_ {
-    (1..input.len())
-        .filter_map(|ix| {
-            let left: Vec<_> = input.iter().take(ix).rev().collect();
-            let right = &input[ix..];
-            let size = left.len().min(right.len());
+fn mirrors_smudged(input: &Vec<String>) -> impl Iterator<Item = usize> + '_ {
+    (1..input.len()).filter(|ix| {
+        let left: Vec<_> = input.iter().take(*ix).rev().collect();
+        let right = &input[*ix..];
+        let size = left.len().min(right.len());
 
-            let differences = size - (0..size).filter(|&pos| *left[pos] == right[pos]).count();
-            // dbg!(&left, &right, is_same);
-            if differences > 1 {
-                None
-            } else {
-                Some((differences, ix))
-            }
-        })
-        .sorted_by(|(a, _), (b, _)| a.cmp(b))
+        // Exit early if there are more than one different rows
+        let same_rows = (0..size).filter(|&pos| *left[pos] == right[pos]).count();
+        if size - same_rows != 1 {
+            return false;
+        }
+
+        debug_assert!(right[0].len() == left[0].len());
+
+        // Check if the rest is the same
+        let difference_chars: usize = (0..size)
+            .map(|pos| {
+                left[pos]
+                    .chars()
+                    .zip(right[pos].chars())
+                    .filter(|(l, r)| l != r)
+                    .count()
+            })
+            .sum();
+
+        difference_chars == 1
+    })
 }
 
 #[cfg(test)]

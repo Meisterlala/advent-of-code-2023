@@ -2,7 +2,7 @@ use std::{fs::OpenOptions, path::Path};
 
 #[allow(dead_code)]
 pub fn check_if_present(day: u32) -> bool {
-    Path::new(&format!("inputs/day{:02}", day)).exists()
+    Path::new(&format!("./inputs/day{:02}", day)).exists()
 }
 
 #[allow(dead_code)]
@@ -32,8 +32,13 @@ pub fn download_input(day: u32) -> Result<(), String> {
     let mut file = OpenOptions::new()
         .write(true)
         .create(true)
-        .open(format!("inputs/day{:02}", day))
-        .map_err(|e| format!("Failed to create input file: {}", e))?;
+        .open(format!("./inputs/day{:02}", day))
+        .map_err(|e| {
+            format!(
+                "Failed to create input file './inputs/day{:02}': {}",
+                day, e
+            )
+        })?;
     std::io::copy(&mut response, &mut file)
         .map_err(|e| format!("Failed to write input file: {}", e))?;
 

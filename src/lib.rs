@@ -10,6 +10,7 @@ mod day_09;
 mod day_10;
 mod day_11;
 mod day_12;
+mod day_13;
 
 mod download_input;
 
@@ -26,6 +27,7 @@ pub static DAYS: &[&Day] = &[
     &day_10::SOLUTION,
     &day_11::SOLUTION,
     &day_12::SOLUTION,
+    &day_13::SOLUTION,
 ];
 
 pub trait Solution: Send + Sync {

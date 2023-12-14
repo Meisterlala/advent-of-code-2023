@@ -151,7 +151,7 @@ mod tests {
         let p1 = &patterns[0].content;
         let transposed = super::transpose(p1);
 
-        assert_eq!(transposed.len(), 7);
+        assert_eq!(transposed.len(), 9);
         assert_eq!(mirrors(&transposed).next(), Some(5));
     }
 

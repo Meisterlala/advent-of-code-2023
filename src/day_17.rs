@@ -5,13 +5,13 @@ use std::collections::{BinaryHeap, HashMap};
 pub fn solve_a(input: &str) -> u32 {
     let graph = parse(input);
     let goal = (graph.len() - 1, graph[0].len() - 1);
-    dijkstra(&graph, (0, 0), goal, filter_edge_a).expect("no path found")
+    astar(&graph, (0, 0), goal, filter_edge_a).expect("no path found")
 }
 
 pub fn solve_b(input: &str) -> u32 {
     let graph = parse(input);
     let goal = (graph.len() - 1, graph[0].len() - 1);
-    dijkstra(&graph, (0, 0), goal, filter_edge_b).expect("no path found")
+    astar(&graph, (0, 0), goal, filter_edge_b).expect("no path found")
 }
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy, Hash)]
@@ -27,18 +27,19 @@ struct Node {
     location: (usize, usize),
     direction: Direction,
     direction_count: u16,
-    cost: u32,
+    f_cost: u32, //Estimated cost to goal
+    g_cost: u32, //Cost to get to this node
 }
 
 impl Ord for Node {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        other.cost.cmp(&self.cost)
+        other.f_cost.cmp(&self.f_cost)
     }
 }
 
 impl PartialOrd for Node {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        Some(other.cost.cmp(&self.cost))
+        Some(self.cmp(other))
     }
 }
 
@@ -59,7 +60,7 @@ fn parse(input: &str) -> Vec<Vec<u8>> {
         .collect()
 }
 
-fn dijkstra(
+fn astar(
     graph: &[Vec<u8>],
     start: (usize, usize),
     goal: (usize, usize),
@@ -76,25 +77,31 @@ fn dijkstra(
         location: start,
         direction: Direction::East,
         direction_count: 1,
-        cost: 0,
+        g_cost: 0,
+        f_cost: h_cost(start, goal),
     });
     heap.push(Node {
         location: start,
         direction: Direction::South,
         direction_count: 1,
-        cost: 0,
+        g_cost: 0,
+        f_cost: h_cost(start, goal),
     });
 
     // Examine the Possible Node with min heap
+    let mut nodes_examined = 0;
     while let Some(node) = heap.pop() {
+        nodes_examined += 1;
+
         // If we reached the goal, we are done
         if node.location == goal {
-            return Some(node.cost);
+            // println!("Nodes examined: {}", nodes_examined);
+            return Some(node.g_cost);
         }
 
         // If there already is a better way, we don't need to look at this node
         if let Some(dist) = dist.get(&(node.location, node.direction, node.direction_count)) {
-            if node.cost > *dist {
+            if node.f_cost > *dist {
                 continue;
             }
         }
@@ -108,7 +115,8 @@ fn dijkstra(
 
             // Calculate the next node
             let next = Node {
-                cost: node.cost + edge.weight as u32,
+                g_cost: node.g_cost + edge.weight as u32,
+                f_cost: node.g_cost as u32 + h_cost(node.location, goal),
                 direction: edge.direction,
                 direction_count: if edge.direction == node.direction {
                     node.direction_count + 1
@@ -125,7 +133,7 @@ fn dijkstra(
 
             // If there already is a easier way to get to this node, we don't need to look at it
             if let Some(dist) = dist.get(&(next.location, next.direction, next.direction_count)) {
-                if next.cost >= *dist {
+                if next.f_cost >= *dist {
                     continue;
                 }
             }
@@ -133,7 +141,7 @@ fn dijkstra(
             // Save the cost to get to this node
             dist.insert(
                 (next.location, next.direction, next.direction_count),
-                next.cost,
+                next.f_cost,
             );
             // Look at the next node later
             heap.push(next);
@@ -141,6 +149,10 @@ fn dijkstra(
     }
 
     None
+}
+
+fn h_cost(node_pos: (usize, usize), goal: (usize, usize)) -> u32 {
+    (((goal.0 - node_pos.0) + (goal.1 - node_pos.1)) * 2) as u32
 }
 
 fn valid_edges(graph: &[Vec<u8>], node: &Node) -> Vec<Edge> {

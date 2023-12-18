@@ -5,13 +5,13 @@ use std::collections::{BinaryHeap, HashMap};
 pub fn solve_a(input: &str) -> u32 {
     let graph = parse(input);
     let goal = (graph.len() - 1, graph[0].len() - 1);
-    astar(&graph, (0, 0), goal, filter_edge_a).expect("no path found")
+    astar(&graph, (0, 0), goal, filter_edge_a, 4).expect("no path found")
 }
 
 pub fn solve_b(input: &str) -> u32 {
     let graph = parse(input);
     let goal = (graph.len() - 1, graph[0].len() - 1);
-    astar(&graph, (0, 0), goal, filter_edge_b).expect("no path found")
+    astar(&graph, (0, 0), goal, filter_edge_b, 11).expect("no path found")
 }
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy, Hash)]
@@ -65,11 +65,10 @@ fn astar(
     start: (usize, usize),
     goal: (usize, usize),
     edge_filter: fn(&Edge, &Node) -> bool,
+    max_sqeuence: usize,
 ) -> Option<u32> {
     // Distance to the node, with the specified direction and direction count
-    let mut dist = HashMap::new();
-    dist.insert((start, Direction::East, 0), 1);
-    dist.insert((start, Direction::South, 0), 1);
+    let mut dist = vec![vec![vec![vec![None; max_sqeuence]; 4]; graph[0].len()]; graph.len()];
 
     // Next Nodes we need to look at
     let mut heap = BinaryHeap::new();
@@ -89,19 +88,17 @@ fn astar(
     });
 
     // Examine the Possible Node with min heap
-    let mut nodes_examined = 0;
     while let Some(node) = heap.pop() {
-        nodes_examined += 1;
-
         // If we reached the goal, we are done
         if node.location == goal {
-            // println!("Nodes examined: {}", nodes_examined);
             return Some(node.g_cost);
         }
 
         // If there already is a better way, we don't need to look at this node
-        if let Some(dist) = dist.get(&(node.location, node.direction, node.direction_count)) {
-            if node.f_cost > *dist {
+        if let Some(dist) = dist[node.location.0][node.location.1][node.direction as usize]
+            [node.direction_count as usize - 1]
+        {
+            if node.f_cost > dist {
                 continue;
             }
         }
@@ -116,7 +113,7 @@ fn astar(
             // Calculate the next node
             let next = Node {
                 g_cost: node.g_cost + edge.weight as u32,
-                f_cost: node.g_cost as u32 + h_cost(node.location, goal),
+                f_cost: node.g_cost + edge.weight as u32 + h_cost(node.location, goal),
                 direction: edge.direction,
                 direction_count: if edge.direction == node.direction {
                     node.direction_count + 1
@@ -132,17 +129,17 @@ fn astar(
             };
 
             // If there already is a easier way to get to this node, we don't need to look at it
-            if let Some(dist) = dist.get(&(next.location, next.direction, next.direction_count)) {
-                if next.f_cost >= *dist {
+            if let Some(dist) = dist[next.location.0][next.location.1][next.direction as usize]
+                [next.direction_count as usize - 1]
+            {
+                if next.f_cost >= dist {
                     continue;
                 }
             }
 
             // Save the cost to get to this node
-            dist.insert(
-                (next.location, next.direction, next.direction_count),
-                next.f_cost,
-            );
+            dist[next.location.0][next.location.1][next.direction as usize]
+                [next.direction_count as usize - 1] = Some(next.f_cost);
             // Look at the next node later
             heap.push(next);
         }
@@ -152,7 +149,7 @@ fn astar(
 }
 
 fn h_cost(node_pos: (usize, usize), goal: (usize, usize)) -> u32 {
-    (((goal.0 - node_pos.0) + (goal.1 - node_pos.1)) * 2) as u32
+    ((goal.0 - node_pos.0) + (goal.1 - node_pos.1)) as u32
 }
 
 fn valid_edges(graph: &[Vec<u8>], node: &Node) -> Vec<Edge> {

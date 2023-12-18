@@ -91,22 +91,18 @@ fn tilt_cycle(arr: &mut ArrayViewMut2<Symbol>) {
 fn tilt_north(arr: &mut ArrayViewMut2<Symbol>) {
     // pattern.map(|line| tilt_line_west(line))
     arr.columns_mut().into_iter().for_each(|mut line| {
-        for (free_sapce, group) in &line
-            .iter_mut()
-            .group_by(|c| matches!(c, Symbol::Round | Symbol::Empty))
-        {
-            if free_sapce {
-                let mut all = group.collect::<Vec<_>>();
-                let rocks = all.iter().filter(|c| ***c == Symbol::Round).count();
-                for (i, c) in all.iter_mut().enumerate() {
-                    if i < rocks {
-                        **c = Symbol::Round;
-                    } else {
-                        **c = Symbol::Empty;
-                    }
+        (0..line.len()).for_each(|j| {
+            if line[j] == Symbol::Round {
+                let mut k = j;
+
+                while k > 0 && line[k - 1] == Symbol::Empty {
+                    k -= 1;
                 }
+
+                line[j] = Symbol::Empty;
+                line[k] = Symbol::Round;
             }
-        }
+        });
     });
 }
 

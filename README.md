@@ -3,7 +3,7 @@
 
 ## What is Advent of Code? 🎄
 
-[Advent of Code](https://adventofcode.com/) is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. This repository contains my solutions to the Advent of Code 2023 puzzles
+[Advent of Code](https://adventofcode.com/) is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. Each day there will be a new problem that is split into 2 parts. The second parts is a more difficult variation of the first part. This repository contains my solutions to the Advent of Code 2023 puzzles
 
 
 ### Some of the techniques used in the solutions

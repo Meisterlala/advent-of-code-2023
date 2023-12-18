@@ -1,9 +1,6 @@
 crate::solution!(17, solve_a, solve_b);
 
-use std::{
-    collections::{BinaryHeap, HashMap},
-    usize,
-};
+use std::{collections::BinaryHeap, usize};
 
 pub fn solve_a(input: &str) -> u32 {
     let graph = parse(input);
@@ -100,21 +97,6 @@ fn astar(
         // If we reached the goal, we are done
         if node.location == goal {
             return Some(node.g_cost);
-        }
-
-        // If there already is a better way, we don't need to look at this node
-        if let Some(dist) = dist[index_1d(
-            node.location.0,
-            node.location.1,
-            node.direction as usize,
-            node.direction_count as usize - 1,
-            a_max,
-            b_max,
-            c_max,
-        )] {
-            if node.f_cost > dist {
-                continue;
-            }
         }
 
         // For each node we can reach, see if we can find a way with a lower cost going through this node

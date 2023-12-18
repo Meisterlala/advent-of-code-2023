@@ -4,10 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-nom = "7.1"
-itertools = "0.12"
-rayon = "1.8"
-ndarray = "0.15"
+nom = "7.1" # Parsing
+itertools = "0.12" # Iteration
+rayon = "1.8" # Parallelization
+ndarray = "0.15" # N-dimensional arrays
+plotters = "0.3.3"
 
 # For downloading input
 reqwest = { version = "0.11", features = ["blocking"] }
@@ -15,6 +16,7 @@ dotenv = "0.15.0"
 
 [dev-dependencies]
 criterion = "0.5.1"
+
 
 [lib]
 path = "src/lib.rs"

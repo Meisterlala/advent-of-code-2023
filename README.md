@@ -15,7 +15,9 @@
 - [Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) during [Day 09](src/day_09.rs) to calculate the binomial coefficients and predict the next value in a sequence.
 - [Point in Polygon](https://en.wikipedia.org/wiki/Point_in_polygon) during [Day 10](src/day_10.rs) to determine how many free spaces are enclosed by a line.
 - [Dynamic Programming](https://en.wikipedia.org/wiki/Dynamic_programming) during [Day 12](src/day_12.rs) to solve the recursiveness of the problem in a reasonable time.
-
+- [A* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) during [Day 17](src/day_17.rs) to find the shortest path between two points, while following certain restrictions.
+- [Shoelace formula](https://en.wikipedia.org/wiki/Shoelace_formula) during [Day 18](src/day_18.rs) to calculate the area of a polygon. Here is a drawing of the [part a](.github/day_18_a.svg) and [part b](.github/day_18_b.svg) polygon.
+  
 
 ## Solutions
 
@@ -38,6 +40,7 @@
 | [Day 15: Lens Library](https://adventofcode.com/2023/day/15)                   | :star: :star: | [Code](src/day_15.rs) |       1.274 ms |
 | [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)         | :star: :star: | [Code](src/day_16.rs) |      19.653 ms |
 | [Day 17: Clumsy Crucible](https://adventofcode.com/2023/day/17)                | :star: :star: | [Code](src/day_17.rs) |     197.790 ms |
+| [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18)                | :star: :star: | [Code](src/day_18.rs) |       0.312 ms |
 
 ## Try it out
 

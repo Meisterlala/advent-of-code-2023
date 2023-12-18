@@ -1,6 +1,9 @@
 crate::solution!(17, solve_a, solve_b);
 
-use std::collections::{BinaryHeap, HashMap};
+use std::{
+    collections::{BinaryHeap, HashMap},
+    usize,
+};
 
 pub fn solve_a(input: &str) -> u32 {
     let graph = parse(input);
@@ -68,7 +71,12 @@ fn astar(
     max_sqeuence: usize,
 ) -> Option<u32> {
     // Distance to the node, with the specified direction and direction count
-    let mut dist = vec![vec![vec![vec![None; max_sqeuence]; 4]; graph[0].len()]; graph.len()];
+    // let mut dist = vec![vec![vec![vec![None; max_sqeuence]; 4]; graph[0].len()]; graph.len()];
+    let a_max = graph.len();
+    let b_max = graph[0].len();
+    let c_max = 4;
+    let d_max = max_sqeuence;
+    let mut dist = vec![None; a_max * b_max * c_max * d_max];
 
     // Next Nodes we need to look at
     let mut heap = BinaryHeap::new();
@@ -95,9 +103,15 @@ fn astar(
         }
 
         // If there already is a better way, we don't need to look at this node
-        if let Some(dist) = dist[node.location.0][node.location.1][node.direction as usize]
-            [node.direction_count as usize - 1]
-        {
+        if let Some(dist) = dist[index_1d(
+            node.location.0,
+            node.location.1,
+            node.direction as usize,
+            node.direction_count as usize - 1,
+            a_max,
+            b_max,
+            c_max,
+        )] {
             if node.f_cost > dist {
                 continue;
             }
@@ -129,17 +143,30 @@ fn astar(
             };
 
             // If there already is a easier way to get to this node, we don't need to look at it
-            if let Some(dist) = dist[next.location.0][next.location.1][next.direction as usize]
-                [next.direction_count as usize - 1]
-            {
+            if let Some(dist) = dist[index_1d(
+                next.location.0,
+                next.location.1,
+                next.direction as usize,
+                next.direction_count as usize - 1,
+                a_max,
+                b_max,
+                c_max,
+            )] {
                 if next.f_cost >= dist {
                     continue;
                 }
             }
 
             // Save the cost to get to this node
-            dist[next.location.0][next.location.1][next.direction as usize]
-                [next.direction_count as usize - 1] = Some(next.f_cost);
+            dist[index_1d(
+                next.location.0,
+                next.location.1,
+                next.direction as usize,
+                next.direction_count as usize - 1,
+                a_max,
+                b_max,
+                c_max,
+            )] = Some(next.f_cost);
             // Look at the next node later
             heap.push(next);
         }
@@ -150,6 +177,18 @@ fn astar(
 
 fn h_cost(node_pos: (usize, usize), goal: (usize, usize)) -> u32 {
     ((goal.0 - node_pos.0) + (goal.1 - node_pos.1)) as u32
+}
+
+fn index_1d(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    a_max: usize,
+    b_max: usize,
+    c_max: usize,
+) -> usize {
+    a + b * a_max + c * a_max * b_max + d * a_max * b_max * c_max
 }
 
 fn valid_edges(graph: &[Vec<u8>], node: &Node) -> Vec<Edge> {

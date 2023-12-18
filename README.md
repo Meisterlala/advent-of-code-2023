@@ -37,7 +37,7 @@
 | [Day 14: Parabolic Reflector Dish](https://adventofcode.com/2023/day/14)       | :star: :star: | [Code](src/day_14.rs) |      63.610 ms |
 | [Day 15: Lens Library](https://adventofcode.com/2023/day/15)                   | :star: :star: | [Code](src/day_15.rs) |       1.274 ms |
 | [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)         | :star: :star: | [Code](src/day_16.rs) |      19.653 ms |
-| [Day 17: Clumsy Crucible](https://adventofcode.com/2023/day/17)                | :star: :star: | [Code](src/day_17.rs) |     583.720 ms |
+| [Day 17: Clumsy Crucible](https://adventofcode.com/2023/day/17)                | :star: :star: | [Code](src/day_17.rs) |     212.720 ms |
 
 ## Try it out
 

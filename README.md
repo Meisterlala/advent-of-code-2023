@@ -16,7 +16,7 @@
 - [Point in Polygon](https://en.wikipedia.org/wiki/Point_in_polygon) during [Day 10](src/day_10.rs) to determine how many free spaces are enclosed by a line.
 - [Dynamic Programming](https://en.wikipedia.org/wiki/Dynamic_programming) during [Day 12](src/day_12.rs) to solve the recursiveness of the problem in a reasonable time.
 - [A* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) during [Day 17](src/day_17.rs) to find the shortest path between two points, while following certain restrictions.
-- [Shoelace formula](https://en.wikipedia.org/wiki/Shoelace_formula) during [Day 18](src/day_18.rs) to calculate the area of a polygon. Here is a drawing of the [part a](.github/day_18_a.svg) and [part b](.github/day_18_b.svg) polygon.
+- [Shoelace formula](https://en.wikipedia.org/wiki/Shoelace_formula) during [Day 18](src/day_18.rs) to calculate the area of a polygon. Here is a rendering of the [Day 18 Part 1](.github/day_18_a.svg) and [Day 18 Part 2](.github/day_18_b.svg) polygon.
   
 
 ## Solutions

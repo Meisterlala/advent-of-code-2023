@@ -1,6 +1,12 @@
 crate::solution!(17, solve_a, solve_b);
 
-use std::{collections::BinaryHeap, usize};
+use std::{
+    collections::{BinaryHeap, HashMap},
+    hash::Hasher,
+    usize,
+};
+
+use rustc_hash::FxHashMap;
 
 pub fn solve_a(input: &str) -> u32 {
     let graph = parse(input);
@@ -73,7 +79,7 @@ fn astar(
     let b_max = graph[0].len();
     let c_max = 4;
     let d_max = max_sqeuence;
-    let mut dist = vec![None; a_max * b_max * c_max * d_max];
+    let mut dist: FxHashMap<usize, u32> = FxHashMap::default();
 
     // Next Nodes we need to look at
     let mut heap = BinaryHeap::new();
@@ -125,7 +131,7 @@ fn astar(
             };
 
             // If there already is a easier way to get to this node, we don't need to look at it
-            if let Some(dist) = dist[index_1d(
+            let inx = index_1d(
                 next.location.0,
                 next.location.1,
                 next.direction as usize,
@@ -133,22 +139,17 @@ fn astar(
                 a_max,
                 b_max,
                 c_max,
-            )] {
-                if next.f_cost >= dist {
-                    continue;
+            );
+
+            if let Some(e) = dist.get_mut(&inx) {
+                if next.f_cost < *e {
+                    *e = next.f_cost;
                 }
+                continue;
+            } else {
+                dist.insert(inx, next.f_cost);
             }
 
-            // Save the cost to get to this node
-            dist[index_1d(
-                next.location.0,
-                next.location.1,
-                next.direction as usize,
-                next.direction_count as usize - 1,
-                a_max,
-                b_max,
-                c_max,
-            )] = Some(next.f_cost);
             // Look at the next node later
             heap.push(next);
         }
@@ -161,6 +162,7 @@ fn h_cost(node_pos: (usize, usize), goal: (usize, usize)) -> u32 {
     ((goal.0 - node_pos.0) + (goal.1 - node_pos.1)) as u32
 }
 
+#[inline]
 fn index_1d(
     a: usize,
     b: usize,

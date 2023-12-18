@@ -9,6 +9,7 @@ itertools = "0.12" # Iteration
 rayon = "1.8" # Parallelization
 ndarray = "0.15" # N-dimensional arrays
 plotters = "0.3.3"
+rustc-hash = "1.1.0"
 
 # For downloading input
 reqwest = { version = "0.11", features = ["blocking"] }

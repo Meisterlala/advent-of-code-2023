@@ -34,8 +34,10 @@
 | [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)               | :star: :star: | [Code](src/day_11.rs) |       2.566 ms |
 | [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)                    | :star: :star: | [Code](src/day_12.rs) |       4.443 ms |
 | [Day 13: Point of Incidence](https://adventofcode.com/2023/day/13)             | :star: :star: | [Code](src/day_13.rs) |       1.251 ms |
-| [Day 14: Parabolic Reflector Dish](https://adventofcode.com/2023/day/14)       | :star: :star: | [Code](src/day_14.rs) |     314.610 ms |
+| [Day 14: Parabolic Reflector Dish](https://adventofcode.com/2023/day/14)       | :star: :star: | [Code](src/day_14.rs) |      63.610 ms |
 | [Day 15: Lens Library](https://adventofcode.com/2023/day/15)                   | :star: :star: | [Code](src/day_15.rs) |       1.274 ms |
+| [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)         | :star: :star: | [Code](src/day_16.rs) |      19.653 ms |
+
 
 ## Try it out
 

@@ -1,12 +1,17 @@
-crate::solution!(17, solve_a);
+crate::solution!(17, solve_a, solve_b);
 
 use std::collections::{BinaryHeap, HashMap};
 
 pub fn solve_a(input: &str) -> u32 {
     let graph = parse(input);
-    let start = (0, 0);
     let goal = (graph.len() - 1, graph[0].len() - 1);
-    dijkstra(&graph, start, goal).expect("no path found")
+    dijkstra(&graph, (0, 0), goal, filter_edge_a).expect("no path found")
+}
+
+pub fn solve_b(input: &str) -> u32 {
+    let graph = parse(input);
+    let goal = (graph.len() - 1, graph[0].len() - 1);
+    dijkstra(&graph, (0, 0), goal, filter_edge_b).expect("no path found")
 }
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy, Hash)]
@@ -54,7 +59,12 @@ fn parse(input: &str) -> Vec<Vec<u8>> {
         .collect()
 }
 
-fn dijkstra(graph: &[Vec<u8>], start: (usize, usize), goal: (usize, usize)) -> Option<u32> {
+fn dijkstra(
+    graph: &[Vec<u8>],
+    start: (usize, usize),
+    goal: (usize, usize),
+    edge_filter: fn(&Edge, &Node) -> bool,
+) -> Option<u32> {
     // Distance to the node, with the specified direction and direction count
     let mut dist = HashMap::new();
     dist.insert((start, Direction::East, 0), 1);
@@ -90,9 +100,9 @@ fn dijkstra(graph: &[Vec<u8>], start: (usize, usize), goal: (usize, usize)) -> O
         }
 
         // For each node we can reach, see if we can find a way with a lower cost going through this node
-        for edge in all_edges(graph, node.location, &node.direction) {
-            // Check for 3 consecutive straight directions
-            if edge.direction == node.direction && node.direction_count >= 3 {
+        for edge in valid_edges(graph, &node) {
+            // Check for consecutive directions
+            if edge_filter(&edge, &node) {
                 continue;
             }
 
@@ -133,38 +143,47 @@ fn dijkstra(graph: &[Vec<u8>], start: (usize, usize), goal: (usize, usize)) -> O
     None
 }
 
-fn all_edges(
-    graph: &[Vec<u8>],
-    location: (usize, usize),
-    travel_direction: &Direction,
-) -> Vec<Edge> {
-    let (x, y) = location;
+fn valid_edges(graph: &[Vec<u8>], node: &Node) -> Vec<Edge> {
+    let (x, y) = node.location;
     let mut edges = Vec::new();
-    if x > 0 && travel_direction != &Direction::South {
+    if x > 0 && node.direction != Direction::South {
         edges.push(Edge {
             direction: Direction::North,
             weight: graph[x - 1][y] as u16,
         });
     }
-    if y > 0 && travel_direction != &Direction::East {
+    if y > 0 && node.direction != Direction::East {
         edges.push(Edge {
             direction: Direction::West,
             weight: graph[x][y - 1] as u16,
         });
     }
-    if x < graph.len() - 1 && travel_direction != &Direction::North {
+    if x < graph.len() - 1 && node.direction != Direction::North {
         edges.push(Edge {
             direction: Direction::South,
             weight: graph[x + 1][y] as u16,
         });
     }
-    if y < graph[0].len() - 1 && travel_direction != &Direction::West {
+    if y < graph[0].len() - 1 && node.direction != Direction::West {
         edges.push(Edge {
             direction: Direction::East,
             weight: graph[x][y + 1] as u16,
         });
     }
+
     edges
+}
+
+fn filter_edge_a(edge: &Edge, node: &Node) -> bool {
+    edge.direction == node.direction && node.direction_count >= 3
+}
+
+fn filter_edge_b(edge: &Edge, node: &Node) -> bool {
+    if edge.direction == node.direction {
+        node.direction_count >= 10
+    } else {
+        node.direction_count < 4
+    }
 }
 
 #[cfg(test)]
@@ -188,5 +207,10 @@ mod tests {
     #[test]
     fn example_a() {
         assert_eq!(solve_a(EXAMPLE), 102);
+    }
+
+    #[test]
+    fn example_b() {
+        assert_eq!(solve_b(EXAMPLE), 94);
     }
 }

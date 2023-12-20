@@ -1,11 +1,11 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, ops::RangeInclusive};
 
 use nom::{
     branch::alt,
     bytes::complete::tag,
     character::{
         self,
-        complete::{alpha1, line_ending, newline},
+        complete::{alpha1, line_ending, newline, one_of},
         streaming::multispace1,
     },
     combinator::opt,
@@ -13,7 +13,6 @@ use nom::{
     sequence::{delimited, pair, preceded, separated_pair, terminated, tuple},
     IResult, Parser,
 };
-use rayon::prelude::*;
 
 crate::solution!(19, solve_a, solve_b);
 
@@ -25,7 +24,47 @@ struct Part {
     s: u32,
 }
 
-type Workflow = Vec<Box<dyn Fn(&Part) -> State>>;
+#[derive(Debug, Clone)]
+struct PartRange {
+    x: RangeInclusive<u32>,
+    m: RangeInclusive<u32>,
+    a: RangeInclusive<u32>,
+    s: RangeInclusive<u32>,
+}
+
+impl PartRange {
+    fn size(&self) -> u128 {
+        let mut count = 1;
+        for r in [&self.x, &self.m, &self.a, &self.s] {
+            if !r.is_empty() {
+                count *= (r.end() - r.start() + 1) as u128;
+            }
+        }
+        count
+    }
+
+    fn get(&self, c: &char) -> &RangeInclusive<u32> {
+        match c {
+            'x' => &self.x,
+            'm' => &self.m,
+            'a' => &self.a,
+            's' => &self.s,
+            _ => panic!("Unknown variable"),
+        }
+    }
+
+    fn set(&mut self, c: &char, r: RangeInclusive<u32>) {
+        match c {
+            'x' => self.x = r,
+            'm' => self.m = r,
+            'a' => self.a = r,
+            's' => self.s = r,
+            _ => panic!("Unknown variable"),
+        }
+    }
+}
+
+type Workflow = Vec<Rule>;
 type Workflows = HashMap<String, Workflow>;
 
 #[derive(Debug, Clone)]
@@ -34,6 +73,25 @@ enum State {
     Reject,
     Continue { workflow: String },
     NotMatched,
+}
+
+#[derive(Debug)]
+enum Comparison {
+    LessThan,
+    GreaterThan,
+}
+
+#[derive(Debug)]
+struct Rule {
+    condition: Option<Condition>,
+    result: State,
+}
+
+#[derive(Debug)]
+struct Condition {
+    var: char,
+    comparator: Comparison,
+    number: u32,
 }
 
 pub fn solve_a(input: &str) -> u32 {
@@ -47,14 +105,55 @@ pub fn solve_a(input: &str) -> u32 {
 }
 
 pub fn solve_b(input: &str) -> u128 {
-    0
+    let (_, (workflows, _)) = parse(input).unwrap();
+
+    count_accepted(
+        &workflows,
+        &"in".to_string(),
+        PartRange {
+            x: 1..=4000,
+            m: 1..=4000,
+            a: 1..=4000,
+            s: 1..=4000,
+        },
+    )
 }
 
 fn part_accepted(workflows: &Workflows, part: &Part) -> bool {
     let mut rules = workflows["in"].iter();
 
     loop {
-        let state = rules.next().expect("No next rule found")(part);
+        let next_rule = rules.next().unwrap();
+        let state = match next_rule.condition {
+            Some(ref condition) => {
+                let value = match condition.var {
+                    'x' => part.x,
+                    'm' => part.m,
+                    'a' => part.a,
+                    's' => part.s,
+                    _ => panic!("Unknown variable"),
+                };
+
+                match condition.comparator {
+                    Comparison::LessThan => {
+                        if value < condition.number {
+                            &next_rule.result
+                        } else {
+                            &State::NotMatched
+                        }
+                    }
+                    Comparison::GreaterThan => {
+                        if value > condition.number {
+                            &next_rule.result
+                        } else {
+                            &State::NotMatched
+                        }
+                    }
+                }
+            }
+            None => &next_rule.result,
+        };
+
         match state {
             State::Accept => return true,
             State::Reject => return false,
@@ -62,6 +161,51 @@ fn part_accepted(workflows: &Workflows, part: &Part) -> bool {
             State::NotMatched => { /* Do Nothing and match next */ }
         };
     }
+}
+
+fn count_accepted(workflows: &Workflows, current_workflow: &String, mut range: PartRange) -> u128 {
+    workflows[current_workflow]
+        .iter()
+        .map(|rule| match &rule.condition {
+            None => match rule.result {
+                State::Accept => range.size(),
+                State::Reject => 0,
+                State::Continue { ref workflow } => {
+                    count_accepted(workflows, workflow, range.clone())
+                }
+                State::NotMatched => unreachable!(),
+            },
+            Some(condition) => {
+                let (matches, rest) = match condition.comparator {
+                    Comparison::LessThan => (
+                        (*range.get(&condition.var).start()..=condition.number - 1),
+                        (condition.number..=*range.get(&condition.var).end()),
+                    ),
+                    Comparison::GreaterThan => (
+                        (condition.number + 1..=*range.get(&condition.var).end()),
+                        (*range.get(&condition.var).start()..=condition.number),
+                    ),
+                };
+
+                let mut sum = 0;
+                if matches.start() <= matches.end() {
+                    let mut new_range = range.clone();
+                    new_range.set(&condition.var, matches);
+
+                    match rule.result {
+                        State::Accept => sum += new_range.size(),
+                        State::Reject => {}
+                        State::Continue { ref workflow } => {
+                            sum += count_accepted(workflows, workflow, new_range)
+                        }
+                        State::NotMatched => unreachable!(),
+                    };
+                }
+                range.set(&condition.var, rest);
+                sum
+            }
+        })
+        .sum()
 }
 
 fn parse(input: &str) -> IResult<&str, (Workflows, Vec<Part>)> {
@@ -90,24 +234,20 @@ fn parse(input: &str) -> IResult<&str, (Workflows, Vec<Part>)> {
 
 fn parse_workflow(input: &str) -> IResult<&str, (&str, Workflow)> {
     let condition = tuple((
+        one_of("xmas"),
         alt((
-            tag("x").map(|_| Box::new(|part: &Part| part.x) as Box<dyn Fn(&Part) -> u32>),
-            tag("m").map(|_| Box::new(|part: &Part| part.m) as Box<dyn Fn(&Part) -> u32>),
-            tag("a").map(|_| Box::new(|part: &Part| part.a) as Box<dyn Fn(&Part) -> u32>),
-            tag("s").map(|_| Box::new(|part: &Part| part.s) as Box<dyn Fn(&Part) -> u32>),
-        )),
-        alt((
-            tag("<").map(|_| Box::new(|a, b| a < b) as Box<dyn Fn(u32, u32) -> bool>),
-            tag(">").map(|_| Box::new(|a, b| a > b) as Box<dyn Fn(u32, u32) -> bool>),
-            tag("=").map(|_| Box::new(|a, b| a == b) as Box<dyn Fn(u32, u32) -> bool>),
+            tag("<").map(|_| Comparison::LessThan),
+            tag(">").map(|_| Comparison::GreaterThan),
         )),
         character::complete::u32,
     ))
-    .map(|(var, comparator, number)| {
-        Box::new(move |part: &Part| comparator(var(part), number)) as Box<dyn Fn(&Part) -> bool>
+    .map(|(var, comparator, number)| Condition {
+        var,
+        comparator,
+        number,
     });
 
-    let rule = pair(
+    let result = pair(
         opt(terminated(condition, tag(":"))),
         alt((
             tag("A").map(|_| State::Accept),
@@ -117,23 +257,11 @@ fn parse_workflow(input: &str) -> IResult<&str, (&str, Workflow)> {
             }),
         )),
     )
-    .map(|(condition, result)| {
-        if let Some(condition) = condition {
-            Box::new(move |part: &Part| {
-                if condition(part) {
-                    result.clone()
-                } else {
-                    State::NotMatched
-                }
-            }) as Box<dyn Fn(&Part) -> State>
-        } else {
-            Box::new(move |_: &Part| result.clone()) as Box<dyn Fn(&Part) -> State>
-        }
-    });
+    .map(|(condition, result)| Rule { condition, result });
 
     pair(
         alpha1,
-        delimited(tag("{"), separated_list1(tag(","), rule), tag("}")),
+        delimited(tag("{"), separated_list1(tag(","), result), tag("}")),
     )
     .parse(input)
 }

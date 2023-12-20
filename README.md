@@ -41,7 +41,7 @@
 | [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)         | :star: :star: | [Code](src/day_16.rs) |      19.653 ms |
 | [Day 17: Clumsy Crucible](https://adventofcode.com/2023/day/17)                | :star: :star: | [Code](src/day_17.rs) |     197.790 ms |
 | [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18)                | :star: :star: | [Code](src/day_18.rs) |       0.312 ms |
-| [Day 19: Aplenty](https://adventofcode.com/2023/day/19)                        | :star:  | [Code](src/day_19.rs) |       0.001 ms |
+| [Day 19: Aplenty](https://adventofcode.com/2023/day/19)                        | :star: :star: | [Code](src/day_19.rs) |       1.084 ms |
 
 ## Try it out
 
